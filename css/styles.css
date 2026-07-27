@@ -233,9 +233,7 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
 .historia__bird img {
   width: 100%;
   height: auto;
-  mix-blend-mode: multiply; /* funde o branco do papel da aquarela com o fundo */
-  -webkit-mask-image: radial-gradient(ellipse 70% 68% at 50% 50%, #000 55%, transparent 98%);
-  mask-image: radial-gradient(ellipse 70% 68% at 50% 50%, #000 55%, transparent 98%);
+  mix-blend-mode: multiply; /* resquícios do papel somem sobre o fundo do site */
 }
 
 /* ============ FOTOS PLACEHOLDER ============ */
