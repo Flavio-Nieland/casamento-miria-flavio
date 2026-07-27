@@ -1,0 +1,426 @@
+/* ============================================================
+   Miriã & Flávio — 06.03.2027
+   Paleta: fusão "Floral Bird" (SW) + paleta francesa azul/linho
+   ============================================================ */
+
+:root {
+  /* base quente */
+  --paper:    #FBF8F1;  /* fundo geral, off-white quente */
+  --linen:    #F2ECDF;  /* blocos linho */
+  --linen-2:  #E9E1D0;
+
+  /* azuis (protagonistas) */
+  --solitude: #93A6BE;  /* SW 6535 */
+  --blue:     #64789B;  /* SW 6536 Searching Blue */
+  --indigo:   #3D4F6D;  /* SW 7602 Indigo Batik */
+  --navy:     #2C3B54;  /* Classic Navy */
+
+  /* verdes (secundária) */
+  --sage-lt:  #C2C9B4;  /* Hazel Gaze */
+  --sage:     #87947A;  /* Privilege Green */
+
+  /* neutros de apoio */
+  --taupe:    #8C8578;
+  --ink:      #333B49;
+
+  --serif: "Cormorant Garamond", Georgia, serif;
+  --sans:  "Jost", "Segoe UI", sans-serif;
+
+  /* padrão de conchinhas (arcos) bem sutil */
+  --shell-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='40' viewBox='0 0 56 40'%3E%3Cpath d='M0 30 a14 14 0 0 1 28 0 M28 30 a14 14 0 0 1 28 0 M-14 10 a14 14 0 0 1 28 0 M14 10 a14 14 0 0 1 28 0 M42 10 a14 14 0 0 1 28 0' fill='none' stroke='%233D4F6D' stroke-width='1'/%3E%3C/svg%3E");
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  font-weight: 300;
+  color: var(--ink);
+  background: var(--paper);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { font-family: var(--serif); font-weight: 500; color: var(--indigo); line-height: 1.15; }
+
+h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
+
+.amp { font-style: italic; font-weight: 400; }
+
+.eyebrow {
+  font-family: var(--sans);
+  font-size: .78rem;
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: .9rem;
+}
+.eyebrow--light { color: var(--sage-lt); }
+
+.placeholder-text {
+  color: var(--taupe);
+  font-style: italic;
+  opacity: .85;
+}
+
+.section { padding: clamp(4rem, 9vw, 7.5rem) 1.5rem; }
+.section__inner { max-width: 1080px; margin: 0 auto; }
+
+/* ============ NAV ============ */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .9rem clamp(1.2rem, 4vw, 3rem);
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid color-mix(in srgb, var(--linen-2) 70%, transparent);
+}
+
+.nav__brand {
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  color: var(--indigo);
+  text-decoration: none;
+  letter-spacing: .08em;
+}
+
+.nav__links {
+  display: flex;
+  gap: clamp(1rem, 2.5vw, 2.2rem);
+  list-style: none;
+}
+
+.nav__links a {
+  font-size: .82rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ink);
+  transition: color .25s;
+}
+.nav__links a:hover { color: var(--blue); }
+
+.nav__cta {
+  border: 1px solid var(--indigo);
+  padding: .35rem 1rem;
+  border-radius: 999px;
+  color: var(--indigo) !important;
+}
+.nav__cta:hover { background: var(--indigo); color: var(--paper) !important; }
+
+.nav__toggle { display: none; background: none; border: none; cursor: pointer; }
+.nav__toggle span {
+  display: block; width: 24px; height: 2px;
+  background: var(--indigo); margin: 5px 0; border-radius: 2px;
+}
+
+/* ============ HERO ============ */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 6rem 1.5rem 7rem;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, color-mix(in srgb, var(--solitude) 18%, transparent), transparent 70%),
+    var(--linen);
+}
+
+.hero__swallows { width: min(320px, 70vw); margin-bottom: .5rem; }
+.hero__swallows svg { width: 100%; height: auto; }
+
+.hero__kicker {
+  font-size: .85rem;
+  letter-spacing: .45em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 1rem;
+}
+
+.hero__names {
+  font-size: clamp(3rem, 9vw, 5.8rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--indigo);
+}
+
+.hero__rule {
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+  margin: 1.6rem auto 1.2rem;
+  color: var(--blue);
+  width: min(320px, 60vw);
+}
+.hero__rule span { flex: 1; height: 1px; background: color-mix(in srgb, var(--blue) 45%, transparent); }
+.mini-shell { width: 20px; height: 20px; }
+
+.hero__date {
+  font-family: var(--serif);
+  font-size: clamp(1.25rem, 2.6vw, 1.7rem);
+  letter-spacing: .12em;
+  color: var(--ink);
+}
+
+.hero__place { margin-top: .5rem; font-size: .92rem; letter-spacing: .08em; }
+
+.hero__scroll {
+  margin-top: 3rem;
+  color: var(--blue);
+  animation: floaty 2.4s ease-in-out infinite;
+}
+@keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+
+.wave-divider {
+  position: absolute;
+  bottom: -1px; left: 0; right: 0;
+  line-height: 0;
+}
+.wave-divider svg { width: 100%; height: clamp(40px, 7vw, 90px); display: block; }
+
+/* ============ NOSSA HISTÓRIA ============ */
+.historia { background: var(--paper); }
+
+.historia__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: center;
+}
+
+.historia__photo { position: relative; }
+
+.historia__photo-frame {
+  position: absolute;
+  inset: -14px 14px 14px -14px;
+  border: 1px solid var(--solitude);
+  z-index: -1;
+}
+
+.historia__text h2 { max-width: 14ch; }
+.historia__text p { margin-bottom: 1.1rem; max-width: 46ch; }
+
+.historia__bird { width: 110px; margin-top: 1.4rem; opacity: .9; }
+.historia__bird svg { width: 100%; height: auto; }
+
+/* ============ FOTOS PLACEHOLDER ============ */
+.photo-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .7rem;
+  aspect-ratio: 4 / 3;
+  background:
+    linear-gradient(160deg, color-mix(in srgb, var(--solitude) 22%, var(--linen)), var(--linen-2));
+  border: 1.5px dashed color-mix(in srgb, var(--blue) 55%, transparent);
+  border-radius: 4px;
+  color: var(--blue);
+  text-align: center;
+  font-size: .85rem;
+  letter-spacing: .06em;
+}
+.photo-placeholder em { font-size: .75rem; color: var(--taupe); }
+.photo-placeholder--tall { aspect-ratio: 4 / 5; }
+
+/* ============ CONTAGEM ============ */
+.contagem {
+  position: relative;
+  background: linear-gradient(160deg, var(--indigo), var(--navy));
+  color: var(--paper);
+  text-align: center;
+  overflow: hidden;
+}
+
+.contagem__texture {
+  position: absolute; inset: 0;
+  background-image: var(--shell-pattern);
+  opacity: .10;
+  filter: invert(1);
+  pointer-events: none;
+}
+
+.contagem .section__inner { position: relative; }
+
+.contagem__title { color: var(--paper); font-style: italic; font-weight: 400; }
+
+.contagem__grid {
+  display: flex;
+  justify-content: center;
+  gap: clamp(1.2rem, 5vw, 3.5rem);
+  margin: 2.8rem 0 2rem;
+  flex-wrap: wrap;
+}
+
+.contagem__cell { display: flex; flex-direction: column; min-width: 76px; }
+
+.contagem__num {
+  font-family: var(--serif);
+  font-size: clamp(2.6rem, 7vw, 4.4rem);
+  font-weight: 400;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.contagem__label {
+  margin-top: .5rem;
+  font-size: .72rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--sage-lt);
+}
+
+.contagem__date {
+  font-family: var(--serif);
+  letter-spacing: .35em;
+  color: var(--solitude);
+  font-size: 1.05rem;
+}
+
+/* ============ O GRANDE DIA (selos) ============ */
+.grande-dia { background: var(--linen); text-align: center; }
+.grande-dia h2 { margin-bottom: 3rem; }
+
+.selos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.2rem, 3vw, 2.4rem);
+}
+
+.selo {
+  background: var(--paper);
+  border: 1.5px dashed var(--blue);
+  outline: 6px solid var(--paper);
+  outline-offset: -10px;
+  border-radius: 3px;
+  padding: 2.4rem 1.6rem 2rem;
+  box-shadow: 0 10px 30px -18px color-mix(in srgb, var(--navy) 45%, transparent);
+  transition: transform .3s ease;
+}
+.selo:hover { transform: translateY(-5px); }
+
+.selo__art { width: 92px; margin: 0 auto 1rem; }
+.selo__art svg { width: 100%; height: auto; }
+
+.selo h3 {
+  font-size: 1.55rem;
+  font-style: italic;
+  margin-bottom: .6rem;
+}
+
+.selo p { font-size: .92rem; }
+
+/* ============ GALERIA ============ */
+.galeria { background: var(--paper); text-align: center; }
+.galeria h2 { margin-bottom: 2.6rem; }
+
+.galeria__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.1rem;
+}
+
+/* ============ RSVP ============ */
+.rsvp {
+  background:
+    var(--shell-pattern),
+    linear-gradient(180deg, color-mix(in srgb, var(--solitude) 30%, var(--linen)), color-mix(in srgb, var(--solitude) 48%, var(--linen)));
+  background-blend-mode: soft-light, normal;
+}
+
+.rsvp__box {
+  max-width: 620px;
+  background: color-mix(in srgb, var(--indigo) 94%, black);
+  color: var(--paper);
+  text-align: center;
+  padding: clamp(2.5rem, 6vw, 4rem);
+  border-radius: 6px;
+  box-shadow: 0 24px 60px -30px var(--navy);
+}
+
+.rsvp__shell { color: var(--sage-lt); margin-bottom: .6rem; }
+
+.rsvp__title { color: var(--paper); font-style: italic; font-weight: 400; font-size: clamp(1.7rem, 4vw, 2.4rem); }
+
+.rsvp__text { margin: .8rem 0 1.8rem; color: var(--solitude); }
+
+.rsvp__btn {
+  font-family: var(--sans);
+  font-size: .82rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  padding: .9rem 2.2rem;
+  border-radius: 999px;
+  border: 1px solid var(--sage-lt);
+  background: transparent;
+  color: var(--sage-lt);
+  cursor: not-allowed;
+  opacity: .85;
+}
+
+/* ============ FOOTER ============ */
+.footer {
+  background: var(--navy);
+  color: var(--paper);
+  text-align: center;
+  padding: 3.5rem 1.5rem 2.8rem;
+}
+
+.footer__birds { width: 120px; margin: 0 auto .8rem; opacity: .9; }
+.footer__birds svg { width: 100%; height: auto; }
+
+.footer__names {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.7rem;
+}
+
+.footer__date {
+  margin-top: .3rem;
+  font-size: .8rem;
+  letter-spacing: .35em;
+  color: var(--solitude);
+}
+
+/* ============ RESPONSIVO ============ */
+@media (max-width: 760px) {
+  .nav__toggle { display: block; }
+
+  .nav__links {
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 1.6rem 0 2rem;
+    background: var(--paper);
+    border-bottom: 1px solid var(--linen-2);
+    display: none;
+  }
+  .nav__links.is-open { display: flex; }
+
+  .historia__grid { grid-template-columns: 1fr; }
+  .historia__photo { max-width: 420px; margin: 0 auto; }
+
+  .selos { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+
+  .galeria__grid { grid-template-columns: repeat(2, 1fr); }
+
+  .contagem__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+    row-gap: 1.8rem;
+  }
+}
