@@ -185,7 +185,13 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
   color: var(--ink);
 }
 
-.hero__place { margin-top: .5rem; font-size: .92rem; letter-spacing: .08em; }
+.hero__place {
+  margin-top: .6rem;
+  font-size: .85rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
 
 .hero__scroll {
   margin-top: 3rem;
@@ -223,8 +229,14 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
 .historia__text h2 { max-width: 14ch; }
 .historia__text p { margin-bottom: 1.1rem; max-width: 46ch; }
 
-.historia__bird { width: 110px; margin-top: 1.4rem; opacity: .9; }
-.historia__bird svg { width: 100%; height: auto; }
+.historia__bird { width: min(280px, 70%); margin-top: 1.6rem; }
+.historia__bird img {
+  width: 100%;
+  height: auto;
+  mix-blend-mode: multiply; /* funde o branco do papel da aquarela com o fundo */
+  -webkit-mask-image: radial-gradient(ellipse 70% 68% at 50% 50%, #000 55%, transparent 98%);
+  mask-image: radial-gradient(ellipse 70% 68% at 50% 50%, #000 55%, transparent 98%);
+}
 
 /* ============ FOTOS PLACEHOLDER ============ */
 .photo-placeholder {
