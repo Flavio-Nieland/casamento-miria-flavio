@@ -33,46 +33,18 @@
   <header class="hero" id="inicio">
     <div class="hero__inner">
 
-      <!-- SLOT-ILUSTRACAO: andorinhas (par em voo circular) — trocar por arte final mantendo viewBox 400x300 -->
+      <!-- Ilustração: andorinhas em voo circular (arte final) -->
       <div class="hero__swallows" aria-hidden="true">
-        <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="200" cy="150" r="34" stroke="var(--taupe)" stroke-width="1.2" opacity=".45"/>
-          <g id="swallow-a">
-            <!-- asa superior (pincelada dupla, saindo do corpo) -->
-            <path d="M186 114 C 202 80, 228 62, 256 64" stroke="var(--solitude)" stroke-width="8" stroke-linecap="round"/>
-            <path d="M192 116 C 206 90, 226 76, 250 74" stroke="var(--sage)" stroke-width="4.5" stroke-linecap="round" opacity=".75"/>
-            <!-- corpo esguio -->
-            <path d="M170 122 C 196 108, 232 104, 256 110 C 262 112 264 116 260 119 C 240 130 204 133 178 129 C 170 128 166 125 170 122 Z" fill="var(--indigo)"/>
-            <!-- cabeça e bico -->
-            <circle cx="260" cy="108" r="8" fill="var(--indigo)"/>
-            <path d="M267 105 L 280 108 L 267 112 Z" fill="var(--indigo)"/>
-            <!-- asa inferior -->
-            <path d="M212 126 C 204 138, 192 147, 176 151" stroke="var(--blue)" stroke-width="5" stroke-linecap="round"/>
-            <!-- cauda bifurcada (andorinha) -->
-            <path d="M176 126 C 158 132, 142 143, 130 158" stroke="var(--indigo)" stroke-width="4.5" stroke-linecap="round"/>
-            <path d="M177 129 C 164 139, 156 150, 152 164" stroke="var(--indigo)" stroke-width="4" stroke-linecap="round"/>
-          </g>
-          <g id="swallow-b" transform="rotate(180 200 150)">
-            <!-- asa superior (pincelada dupla, saindo do corpo) -->
-            <path d="M186 114 C 202 80, 228 62, 256 64" stroke="var(--solitude)" stroke-width="8" stroke-linecap="round"/>
-            <path d="M192 116 C 206 90, 226 76, 250 74" stroke="var(--sage)" stroke-width="4.5" stroke-linecap="round" opacity=".75"/>
-            <!-- corpo esguio -->
-            <path d="M170 122 C 196 108, 232 104, 256 110 C 262 112 264 116 260 119 C 240 130 204 133 178 129 C 170 128 166 125 170 122 Z" fill="var(--indigo)"/>
-            <!-- cabeça e bico -->
-            <circle cx="260" cy="108" r="8" fill="var(--indigo)"/>
-            <path d="M267 105 L 280 108 L 267 112 Z" fill="var(--indigo)"/>
-            <!-- asa inferior -->
-            <path d="M212 126 C 204 138, 192 147, 176 151" stroke="var(--blue)" stroke-width="5" stroke-linecap="round"/>
-            <!-- cauda bifurcada (andorinha) -->
-            <path d="M176 126 C 158 132, 142 143, 130 158" stroke="var(--indigo)" stroke-width="4.5" stroke-linecap="round"/>
-            <path d="M177 129 C 164 139, 156 150, 152 164" stroke="var(--indigo)" stroke-width="4" stroke-linecap="round"/>
-          </g>
-        </svg>
+        <img src="assets/img/hero-andorinhas.png" alt="">
       </div>
 
       <p class="hero__kicker">Vamos nos casar</p>
-      <h1 class="hero__names">Miriã <span class="amp">&amp;</span> Flávio</h1>
-      <div class="hero__rule" aria-hidden="true"><span></span><svg viewBox="0 0 24 24" class="mini-shell"><path d="M12 4 C 5 4 3 12 3 18 L 21 18 C 21 12 19 4 12 4 Z M 12 4 L 12 18 M 7 5.5 L 8.5 18 M 17 5.5 L 15.5 18" stroke="currentColor" stroke-width="1.1" fill="none" stroke-linejoin="round"/></svg><span></span></div>
+      <h1 class="hero__names">
+        <span>Miriã Sanchini</span>
+        <span class="hero__amp amp">&amp;</span>
+        <span>Flávio Nieland</span>
+      </h1>
+      <div class="hero__rule" aria-hidden="true"><span></span><img class="mini-birds" src="assets/img/lovebirds-indigo.png" alt=""><span></span></div>
       <p class="hero__date">06 de março de 2027</p>
       <p class="hero__place placeholder-text">[ LOCAL DA CERIMÔNIA — a definir ]</p>
       <a href="#historia" class="hero__scroll" aria-label="Rolar para baixo">
@@ -145,12 +117,7 @@
 
           <article class="selo">
             <div class="selo__art" aria-hidden="true">
-              <!-- SLOT-ILUSTRACAO: concha -->
-              <svg viewBox="0 0 100 100" fill="none">
-                <path d="M50 16 C 26 16 18 44 16 74 C 38 82 62 82 84 74 C 82 44 74 16 50 16 Z" stroke="var(--indigo)" stroke-width="2.4" stroke-linejoin="round"/>
-                <path d="M50 16 L 50 78 M 33 20 L 30 76 M 67 20 L 70 76 M 41 17 L 39 78 M 59 17 L 61 78" stroke="var(--indigo)" stroke-width="1.6"/>
-                <path d="M16 74 C 38 82 62 82 84 74" stroke="var(--indigo)" stroke-width="2.4"/>
-              </svg>
+              <img src="assets/img/selo-ninho.png" alt="">
             </div>
             <h3>Onde</h3>
             <p class="placeholder-text">[ Nome do espaço ]<br>[ Endereço completo ]<br>[ Cidade — UF ]</p>
@@ -158,16 +125,7 @@
 
           <article class="selo">
             <div class="selo__art" aria-hidden="true">
-              <!-- SLOT-ILUSTRACAO: peixes -->
-              <svg viewBox="0 0 100 100" fill="none">
-                <path d="M18 38 C 30 26 52 24 66 36 C 60 44 44 50 30 46 C 24 44 20 41 18 38 Z" stroke="var(--indigo)" stroke-width="2.2" stroke-linejoin="round"/>
-                <path d="M66 36 L 80 26 L 76 40 L 82 48 L 66 36 Z" stroke="var(--indigo)" stroke-width="2.2" stroke-linejoin="round"/>
-                <circle cx="30" cy="36" r="1.8" fill="var(--indigo)"/>
-                <path d="M82 66 C 70 54 48 52 34 64 C 40 72 56 78 70 74 C 76 72 80 69 82 66 Z" stroke="var(--blue)" stroke-width="2.2" stroke-linejoin="round"/>
-                <path d="M34 64 L 20 54 L 24 68 L 18 76 L 34 64 Z" stroke="var(--blue)" stroke-width="2.2" stroke-linejoin="round"/>
-                <circle cx="70" cy="64" r="1.8" fill="var(--blue)"/>
-                <path d="M14 58 C 18 56 22 56 26 58 M 10 68 C 14 66 18 66 22 68" stroke="var(--solitude)" stroke-width="1.6" stroke-linecap="round"/>
-              </svg>
+              <img src="assets/img/selo-calendario.png" alt="">
             </div>
             <h3>Quando</h3>
             <p>Sábado, 06 de março de 2027<br><span class="placeholder-text">[ horário da cerimônia ]</span><br><span class="placeholder-text">[ horário da recepção ]</span></p>
@@ -175,13 +133,7 @@
 
           <article class="selo">
             <div class="selo__art" aria-hidden="true">
-              <!-- SLOT-ILUSTRACAO: cavalo-marinho -->
-              <svg viewBox="0 0 100 100" fill="none">
-                <path d="M56 18 C 66 20 70 30 66 40 C 62 50 52 54 50 64 C 48 74 54 80 60 80 C 66 80 68 74 64 71 C 61 69 58 71 58 74" stroke="var(--indigo)" stroke-width="2.6" stroke-linecap="round" fill="none"/>
-                <path d="M56 18 C 50 12 42 14 40 20 L 30 22 L 40 26 C 40 32 46 36 52 34" stroke="var(--indigo)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                <circle cx="48" cy="21" r="1.8" fill="var(--indigo)"/>
-                <path d="M64 34 L 70 30 M 62 44 L 69 42 M 57 53 L 64 53" stroke="var(--sage)" stroke-width="2.2" stroke-linecap="round"/>
-              </svg>
+              <img src="assets/img/selo-gravata.png" alt="">
             </div>
             <h3>Dress Code</h3>
             <p class="placeholder-text">[ Traje — ex.: esporte fino ]<br>[ Observações — tons, calçados, clima ]</p>
@@ -212,7 +164,7 @@
     <section class="section rsvp" id="rsvp">
       <div class="section__inner rsvp__box">
         <div class="rsvp__shell" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="40" height="40"><path d="M12 4 C 5 4 3 12 3 18 L 21 18 C 21 12 19 4 12 4 Z M 12 4 L 12 18 M 7 5.5 L 8.5 18 M 17 5.5 L 15.5 18" stroke="currentColor" stroke-width="1.1" fill="none" stroke-linejoin="round"/></svg>
+          <img src="assets/img/lovebirds-sage.png" alt="" width="88">
         </div>
         <p class="eyebrow eyebrow--light">Confirme sua presença</p>
         <h2 class="rsvp__title">Queremos você com a gente</h2>
