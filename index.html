@@ -21,11 +21,11 @@
     </button>
     <ul class="nav__links" id="navLinks">
       <li><a href="#inicio">Início</a></li>
+      <li><a href="#grande-dia">O Grande Dia</a></li>
+      <li><a href="#rsvp" class="nav__cta">RSVP</a></li>
+      <li><a href="#galeria">Galeria</a></li>
       <li><a href="#historia">Nossa História</a></li>
       <li><a href="#contagem">Contagem</a></li>
-      <li><a href="#grande-dia">O Grande Dia</a></li>
-      <li><a href="#galeria">Galeria</a></li>
-      <li><a href="#rsvp" class="nav__cta">RSVP</a></li>
     </ul>
   </nav>
 
@@ -47,58 +47,19 @@
       <div class="hero__rule" aria-hidden="true"><span></span><img class="mini-birds" src="assets/img/lovebirds-indigo.png" alt=""><span></span></div>
       <p class="hero__date">06 de março de 2027</p>
       <p class="hero__place">Fazenda Brisa do Mar</p>
-      <a href="#historia" class="hero__scroll" aria-label="Rolar para baixo">
+      <a href="#grande-dia" class="hero__scroll" aria-label="Rolar para baixo">
         <svg viewBox="0 0 24 24" width="26" height="26"><path d="M6 9 L12 15 L18 9" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </div>
 
     <div class="wave-divider" aria-hidden="true">
-      <svg viewBox="0 0 1440 90" preserveAspectRatio="none">
-        <path d="M0,48 C240,88 480,8 720,40 C960,72 1200,16 1440,52 L1440,90 L0,90 Z" fill="var(--paper)"/>
+      <svg viewBox="0 0 2880 90" preserveAspectRatio="none">
+        <path d="M0,48 C240,88 480,8 720,40 C960,72 1200,16 1440,48 C1680,88 1920,8 2160,40 C2400,72 2640,16 2880,48 L2880,90 L0,90 Z" fill="var(--paper)"/>
       </svg>
     </div>
   </header>
 
   <main>
-
-    <!-- ============ NOSSA HISTÓRIA ============ -->
-    <section class="section historia" id="historia">
-      <div class="section__inner historia__grid">
-        <div class="historia__photo">
-          <!-- SLOT-FOTO: foto principal do casal (proporção 4:5) -->
-          <div class="photo-placeholder photo-placeholder--tall">
-            <svg viewBox="0 0 24 24" width="34" height="34"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.3" fill="none"/><circle cx="9" cy="10" r="1.8" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M4 17 L9.5 12.5 L13 15.5 L16.5 12.5 L20 15.5" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linejoin="round"/></svg>
-            <span>Foto do casal<br><em>[ substituir ]</em></span>
-          </div>
-          <div class="historia__photo-frame" aria-hidden="true"></div>
-        </div>
-        <div class="historia__text">
-          <p class="eyebrow">Nossa História</p>
-          <h2>Dois passarinhos</h2>
-          <p class="placeholder-text">[ SUBSTITUIR — Parágrafo sobre como vocês se conheceram. Ex.: "Tudo começou em uma tarde de..." ]</p>
-          <p class="placeholder-text">[ SUBSTITUIR — Parágrafo sobre o pedido. Ex.: "Anos depois, à beira do mar..." ]</p>
-          <div class="historia__bird" aria-hidden="true">
-            <img src="assets/img/historia-passarinhos.png" alt="">
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ CONTAGEM ============ -->
-    <section class="section contagem" id="contagem">
-      <div class="contagem__texture" aria-hidden="true"></div>
-      <div class="section__inner">
-        <p class="eyebrow eyebrow--light">A contagem começou</p>
-        <h2 class="contagem__title">Falta pouco para o nosso dia</h2>
-        <div class="contagem__grid" id="countdown">
-          <div class="contagem__cell"><span class="contagem__num" id="cdDias">—</span><span class="contagem__label">dias</span></div>
-          <div class="contagem__cell"><span class="contagem__num" id="cdHoras">—</span><span class="contagem__label">horas</span></div>
-          <div class="contagem__cell"><span class="contagem__num" id="cdMin">—</span><span class="contagem__label">minutos</span></div>
-          <div class="contagem__cell"><span class="contagem__num" id="cdSeg">—</span><span class="contagem__label">segundos</span></div>
-        </div>
-        <p class="contagem__date">06 . 03 . 2027</p>
-      </div>
-    </section>
 
     <!-- ============ O GRANDE DIA ============ -->
     <section class="section grande-dia" id="grande-dia">
@@ -135,6 +96,19 @@
       </div>
     </section>
 
+    <!-- ============ RSVP ============ -->
+    <section class="section rsvp" id="rsvp">
+      <div class="section__inner rsvp__box">
+        <div class="rsvp__shell" aria-hidden="true">
+          <img src="assets/img/lovebirds-indigo.png" alt="" width="88">
+        </div>
+        <p class="eyebrow">Confirme sua presença</p>
+        <h2 class="rsvp__title">Queremos você com a gente</h2>
+        <p class="rsvp__text">Em breve você poderá confirmar sua presença por aqui mesmo.</p>
+        <button class="rsvp__btn" disabled>Confirmação em breve</button>
+      </div>
+    </section>
+
     <!-- ============ GALERIA ============ -->
     <section class="section galeria" id="galeria">
       <div class="section__inner">
@@ -152,16 +126,41 @@
       </div>
     </section>
 
-    <!-- ============ RSVP ============ -->
-    <section class="section rsvp" id="rsvp">
-      <div class="section__inner rsvp__box">
-        <div class="rsvp__shell" aria-hidden="true">
-          <img src="assets/img/lovebirds-sage.png" alt="" width="88">
+    <!-- ============ NOSSA HISTÓRIA ============ -->
+    <section class="section historia" id="historia">
+      <div class="section__inner historia__grid">
+        <div class="historia__photo">
+          <!-- SLOT-FOTO: foto principal do casal (proporção 4:5) -->
+          <div class="photo-placeholder photo-placeholder--tall">
+            <svg viewBox="0 0 24 24" width="34" height="34"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.3" fill="none"/><circle cx="9" cy="10" r="1.8" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M4 17 L9.5 12.5 L13 15.5 L16.5 12.5 L20 15.5" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linejoin="round"/></svg>
+            <span>Foto do casal<br><em>[ substituir ]</em></span>
+          </div>
+          <div class="historia__photo-frame" aria-hidden="true"></div>
         </div>
-        <p class="eyebrow eyebrow--light">Confirme sua presença</p>
-        <h2 class="rsvp__title">Queremos você com a gente</h2>
-        <p class="rsvp__text">Em breve você poderá confirmar sua presença por aqui mesmo.</p>
-        <button class="rsvp__btn" disabled>Confirmação em breve</button>
+        <div class="historia__text">
+          <p class="eyebrow">Nossa História</p>
+          <h2>Dois passarinhos</h2>
+          <p class="placeholder-text">[ SUBSTITUIR — Parágrafo sobre como vocês se conheceram. Ex.: "Tudo começou em uma tarde de..." ]</p>
+          <p class="placeholder-text">[ SUBSTITUIR — Parágrafo sobre o pedido. Ex.: "Anos depois, à beira do mar..." ]</p>
+          <div class="historia__bird" aria-hidden="true">
+            <img src="assets/img/historia-passarinhos.png" alt="">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTAGEM ============ -->
+    <section class="section contagem" id="contagem">
+      <div class="contagem__texture" aria-hidden="true"></div>
+      <div class="section__inner">
+        <p class="eyebrow">A contagem começou</p>
+        <h2 class="contagem__title">Falta pouco para o nosso dia</h2>
+        <div class="contagem__grid" id="countdown">
+          <div class="contagem__cell"><span class="contagem__num" id="cdDias">—</span><span class="contagem__label">dias</span></div>
+          <div class="contagem__cell"><span class="contagem__num" id="cdHoras">—</span><span class="contagem__label">horas</span></div>
+          <div class="contagem__cell"><span class="contagem__num" id="cdMin">—</span><span class="contagem__label">minutos</span></div>
+        </div>
+        <p class="contagem__date">06 . 03 . 2027</p>
       </div>
     </section>
 

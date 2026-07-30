@@ -6,7 +6,6 @@ const els = {
   dias: document.getElementById('cdDias'),
   horas: document.getElementById('cdHoras'),
   min: document.getElementById('cdMin'),
-  seg: document.getElementById('cdSeg'),
 };
 
 function atualizarContagem() {
@@ -16,7 +15,6 @@ function atualizarContagem() {
     els.dias.textContent = '0';
     els.horas.textContent = '00';
     els.min.textContent = '00';
-    els.seg.textContent = '00';
     return;
   }
 
@@ -24,7 +22,6 @@ function atualizarContagem() {
   els.dias.textContent = Math.floor(seg / 86400);
   els.horas.textContent = String(Math.floor((seg % 86400) / 3600)).padStart(2, '0');
   els.min.textContent = String(Math.floor((seg % 3600) / 60)).padStart(2, '0');
-  els.seg.textContent = String(seg % 60).padStart(2, '0');
 }
 
 atualizarContagem();

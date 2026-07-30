@@ -32,7 +32,10 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y proximity; /* snap só perto do início e do Grande Dia */
+}
 
 body {
   font-family: var(--sans);
@@ -65,7 +68,13 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
   opacity: .85;
 }
 
-.section { padding: clamp(4rem, 9vw, 7.5rem) 1.5rem; }
+.section {
+  padding: clamp(4rem, 9vw, 7.5rem) 1.5rem;
+  scroll-margin-top: 3.6rem; /* compensa a nav fixa */
+}
+
+/* snap apenas na transição Início -> O Grande Dia */
+.grande-dia { scroll-snap-align: start; }
 .section__inner { max-width: 1080px; margin: 0 auto; }
 
 /* ============ NAV ============ */
@@ -122,14 +131,17 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
 
 /* ============ HERO ============ */
 .hero {
+  --wave-h: clamp(40px, 7vw, 90px);
   position: relative;
-  min-height: 100svh;
+  scroll-snap-align: start;
+  /* +altura da onda: no primeiro acesso o linho cobre a tela inteira e a onda só aparece no scroll */
+  min-height: calc(100svh + var(--wave-h));
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 6rem 1.5rem 7rem;
+  padding: 6rem 1.5rem calc(6rem + var(--wave-h));
   background:
     radial-gradient(ellipse 80% 60% at 50% 0%, color-mix(in srgb, var(--solitude) 18%, transparent), transparent 70%),
     var(--linen);
@@ -204,8 +216,18 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
   position: absolute;
   bottom: -1px; left: 0; right: 0;
   line-height: 0;
+  overflow: hidden;
 }
-.wave-divider svg { width: 100%; height: clamp(40px, 7vw, 90px); display: block; }
+.wave-divider svg {
+  width: 200%;
+  height: var(--wave-h);
+  display: block;
+  animation: onda 18s linear infinite;
+}
+@keyframes onda { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .wave-divider svg { animation: none; }
+}
 
 /* ============ NOSSA HISTÓRIA ============ */
 .historia { background: var(--paper); }
@@ -229,7 +251,7 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
 .historia__text h2 { max-width: 14ch; }
 .historia__text p { margin-bottom: 1.1rem; max-width: 46ch; }
 
-.historia__bird { width: min(280px, 70%); margin-top: 1.6rem; }
+.historia__bird { width: min(280px, 70%); margin: 1.6rem auto 0; }
 .historia__bird img {
   width: 100%;
   height: auto;
@@ -259,8 +281,8 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
 /* ============ CONTAGEM ============ */
 .contagem {
   position: relative;
-  background: linear-gradient(160deg, var(--indigo), var(--navy));
-  color: var(--paper);
+  background: var(--linen);
+  color: var(--ink);
   text-align: center;
   overflow: hidden;
 }
@@ -268,14 +290,13 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
 .contagem__texture {
   position: absolute; inset: 0;
   background-image: var(--bird-pattern);
-  opacity: .10;
-  filter: invert(1);
+  opacity: .14;
   pointer-events: none;
 }
 
 .contagem .section__inner { position: relative; }
 
-.contagem__title { color: var(--paper); font-style: italic; font-weight: 400; }
+.contagem__title { color: var(--indigo); font-style: italic; font-weight: 400; }
 
 .contagem__grid {
   display: flex;
@@ -288,6 +309,7 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
 .contagem__cell { display: flex; flex-direction: column; min-width: 76px; }
 
 .contagem__num {
+  color: var(--indigo);
   font-family: var(--serif);
   font-size: clamp(2.6rem, 7vw, 4.4rem);
   font-weight: 400;
@@ -300,18 +322,18 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
   font-size: .72rem;
   letter-spacing: .3em;
   text-transform: uppercase;
-  color: var(--sage-lt);
+  color: var(--blue);
 }
 
 .contagem__date {
   font-family: var(--serif);
   letter-spacing: .35em;
-  color: var(--solitude);
+  color: var(--blue);
   font-size: 1.05rem;
 }
 
 /* ============ O GRANDE DIA (selos) ============ */
-.grande-dia { background: var(--linen); text-align: center; }
+.grande-dia { background: var(--paper); text-align: center; }
 .grande-dia h2 { margin-bottom: 3rem; }
 
 .selos {
@@ -344,7 +366,7 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
 .selo p { font-size: .92rem; }
 
 /* ============ GALERIA ============ */
-.galeria { background: var(--paper); text-align: center; }
+.galeria { background: var(--linen); text-align: center; }
 .galeria h2 { margin-bottom: 2.6rem; }
 
 .galeria__grid {
@@ -355,28 +377,38 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
 
 /* ============ RSVP ============ */
 .rsvp {
-  background:
-    var(--bird-pattern),
-    linear-gradient(180deg, color-mix(in srgb, var(--solitude) 30%, var(--linen)), color-mix(in srgb, var(--solitude) 48%, var(--linen)));
-  background-blend-mode: soft-light, normal;
+  position: relative;
+  background: linear-gradient(160deg, var(--indigo), var(--navy));
+  overflow: hidden;
+}
+
+.rsvp::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--bird-pattern);
+  opacity: .10;
+  filter: invert(1);
+  pointer-events: none;
 }
 
 .rsvp__box {
+  position: relative;
   max-width: 620px;
-  background: color-mix(in srgb, var(--indigo) 94%, black);
-  color: var(--paper);
+  background: #fff;
+  color: var(--ink);
   text-align: center;
   padding: clamp(2.5rem, 6vw, 4rem);
   border-radius: 6px;
-  box-shadow: 0 24px 60px -30px var(--navy);
+  box-shadow: 0 24px 60px -30px black;
 }
 
 .rsvp__shell { margin-bottom: .6rem; }
 .rsvp__shell img { width: 88px; height: auto; opacity: .95; }
 
-.rsvp__title { color: var(--paper); font-style: italic; font-weight: 400; font-size: clamp(1.7rem, 4vw, 2.4rem); }
+.rsvp__title { color: var(--indigo); font-style: italic; font-weight: 400; font-size: clamp(1.7rem, 4vw, 2.4rem); }
 
-.rsvp__text { margin: .8rem 0 1.8rem; color: var(--solitude); }
+.rsvp__text { margin: .8rem 0 1.8rem; color: var(--taupe); }
 
 .rsvp__btn {
   font-family: var(--sans);
@@ -385,9 +417,9 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
   text-transform: uppercase;
   padding: .9rem 2.2rem;
   border-radius: 999px;
-  border: 1px solid var(--sage-lt);
+  border: 1px solid var(--indigo);
   background: transparent;
-  color: var(--sage-lt);
+  color: var(--indigo);
   cursor: not-allowed;
   opacity: .85;
 }
@@ -440,12 +472,11 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
 
   .galeria__grid { grid-template-columns: repeat(2, 1fr); }
 
-  .contagem__grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    max-width: 320px;
-    margin-left: auto;
-    margin-right: auto;
-    row-gap: 1.8rem;
-  }
+  /* contador: 3 números em uma linha só */
+  .contagem__grid { gap: clamp(1rem, 6vw, 2rem); flex-wrap: nowrap; }
+  .contagem__cell { min-width: 0; }
+  .contagem__num { font-size: clamp(1.9rem, 9vw, 2.8rem); }
+  .contagem__label { font-size: .62rem; letter-spacing: .18em; }
+
+  .hero__swallows img { height: clamp(150px, 24vh, 220px); }
 }
