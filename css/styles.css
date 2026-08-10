@@ -73,8 +73,8 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
   scroll-margin-top: 3.6rem; /* compensa a nav fixa */
 }
 
-/* snap apenas na transição Início -> O Grande Dia */
-.grande-dia { scroll-snap-align: start; }
+/* snap apenas na transição Início -> RSVP */
+.rsvp { scroll-snap-align: start; }
 .section__inner { max-width: 1080px; margin: 0 auto; }
 
 /* ============ NAV ============ */
@@ -281,8 +281,8 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
 /* ============ CONTAGEM ============ */
 .contagem {
   position: relative;
-  background: var(--linen);
-  color: var(--ink);
+  background: linear-gradient(160deg, var(--indigo), var(--navy));
+  color: var(--paper);
   text-align: center;
   overflow: hidden;
 }
@@ -290,13 +290,14 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
 .contagem__texture {
   position: absolute; inset: 0;
   background-image: var(--bird-pattern);
-  opacity: .14;
+  opacity: .10;
+  filter: invert(1);
   pointer-events: none;
 }
 
 .contagem .section__inner { position: relative; }
 
-.contagem__title { color: var(--indigo); font-style: italic; font-weight: 400; }
+.contagem__title { color: var(--paper); font-style: italic; font-weight: 400; }
 
 .contagem__grid {
   display: flex;
@@ -309,7 +310,6 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
 .contagem__cell { display: flex; flex-direction: column; min-width: 76px; }
 
 .contagem__num {
-  color: var(--indigo);
   font-family: var(--serif);
   font-size: clamp(2.6rem, 7vw, 4.4rem);
   font-weight: 400;
@@ -322,13 +322,13 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
   font-size: .72rem;
   letter-spacing: .3em;
   text-transform: uppercase;
-  color: var(--blue);
+  color: var(--sage-lt);
 }
 
 .contagem__date {
   font-family: var(--serif);
   letter-spacing: .35em;
-  color: var(--blue);
+  color: var(--solitude);
   font-size: 1.05rem;
 }
 

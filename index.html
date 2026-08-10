@@ -21,11 +21,11 @@
     </button>
     <ul class="nav__links" id="navLinks">
       <li><a href="#inicio">Início</a></li>
-      <li><a href="#grande-dia">O Grande Dia</a></li>
       <li><a href="#rsvp" class="nav__cta">RSVP</a></li>
-      <li><a href="#galeria">Galeria</a></li>
-      <li><a href="#historia">Nossa História</a></li>
+      <li><a href="#grande-dia">O Grande Dia</a></li>
       <li><a href="#contagem">Contagem</a></li>
+      <li><a href="#historia">Nossa História</a></li>
+      <li><a href="#galeria">Galeria</a></li>
     </ul>
   </nav>
 
@@ -47,54 +47,19 @@
       <div class="hero__rule" aria-hidden="true"><span></span><img class="mini-birds" src="assets/img/lovebirds-indigo.png" alt=""><span></span></div>
       <p class="hero__date">06 de março de 2027</p>
       <p class="hero__place">Fazenda Brisa do Mar</p>
-      <a href="#grande-dia" class="hero__scroll" aria-label="Rolar para baixo">
+      <a href="#rsvp" class="hero__scroll" aria-label="Rolar para baixo">
         <svg viewBox="0 0 24 24" width="26" height="26"><path d="M6 9 L12 15 L18 9" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </div>
 
     <div class="wave-divider" aria-hidden="true">
       <svg viewBox="0 0 2880 90" preserveAspectRatio="none">
-        <path d="M0,48 C240,88 480,8 720,40 C960,72 1200,16 1440,48 C1680,88 1920,8 2160,40 C2400,72 2640,16 2880,48 L2880,90 L0,90 Z" fill="var(--paper)"/>
+        <path d="M0,48 C240,88 480,8 720,40 C960,72 1200,16 1440,48 C1680,88 1920,8 2160,40 C2400,72 2640,16 2880,48 L2880,90 L0,90 Z" fill="var(--indigo)"/>
       </svg>
     </div>
   </header>
 
   <main>
-
-    <!-- ============ O GRANDE DIA ============ -->
-    <section class="section grande-dia" id="grande-dia">
-      <div class="section__inner">
-        <p class="eyebrow">O Grande Dia</p>
-        <h2>Onde, quando &amp; como</h2>
-        <div class="selos">
-
-          <article class="selo">
-            <div class="selo__art" aria-hidden="true">
-              <img src="assets/img/selo-ninho.png" alt="">
-            </div>
-            <h3>Onde</h3>
-            <p class="placeholder-text">[ Nome do espaço ]<br>[ Endereço completo ]<br>[ Cidade — UF ]</p>
-          </article>
-
-          <article class="selo">
-            <div class="selo__art" aria-hidden="true">
-              <img src="assets/img/selo-calendario.png" alt="">
-            </div>
-            <h3>Quando</h3>
-            <p>Sábado, 06 de março de 2027<br><span class="placeholder-text">[ horário da cerimônia ]</span><br><span class="placeholder-text">[ horário da recepção ]</span></p>
-          </article>
-
-          <article class="selo">
-            <div class="selo__art" aria-hidden="true">
-              <img src="assets/img/selo-gravata.png" alt="">
-            </div>
-            <h3>Dress Code</h3>
-            <p class="placeholder-text">[ Traje — ex.: esporte fino ]<br>[ Observações — tons, calçados, clima ]</p>
-          </article>
-
-        </div>
-      </div>
-    </section>
 
     <!-- ============ RSVP ============ -->
     <section class="section rsvp" id="rsvp">
@@ -109,20 +74,53 @@
       </div>
     </section>
 
-    <!-- ============ GALERIA ============ -->
-    <section class="section galeria" id="galeria">
+    <!-- ============ O GRANDE DIA ============ -->
+    <section class="section grande-dia" id="grande-dia">
       <div class="section__inner">
-        <p class="eyebrow">Galeria</p>
-        <h2>Alguns momentos nossos</h2>
-        <div class="galeria__grid">
-          <!-- SLOT-FOTO: galeria — 6 fotos do casal -->
-          <div class="photo-placeholder"><span>Foto 1 <em>[ substituir ]</em></span></div>
-          <div class="photo-placeholder"><span>Foto 2 <em>[ substituir ]</em></span></div>
-          <div class="photo-placeholder"><span>Foto 3 <em>[ substituir ]</em></span></div>
-          <div class="photo-placeholder"><span>Foto 4 <em>[ substituir ]</em></span></div>
-          <div class="photo-placeholder"><span>Foto 5 <em>[ substituir ]</em></span></div>
-          <div class="photo-placeholder"><span>Foto 6 <em>[ substituir ]</em></span></div>
+        <p class="eyebrow">O Grande Dia</p>
+        <h2>Onde, presentes &amp; como</h2>
+        <div class="selos">
+
+          <article class="selo">
+            <div class="selo__art" aria-hidden="true">
+              <img src="assets/img/selo-ninho.png" alt="">
+            </div>
+            <h3>Onde</h3>
+            <p class="placeholder-text">[ Nome do espaço ]<br>[ Endereço completo ]<br>[ Cidade — UF ]<br>[ horário da cerimônia ]<br>[ horário da recepção ]</p>
+          </article>
+
+          <article class="selo">
+            <div class="selo__art" aria-hidden="true">
+              <img src="assets/img/selo-presente.png" alt="">
+            </div>
+            <h3>Presentes</h3>
+            <p class="placeholder-text">[ lista de presentes ]<br>[ chave PIX ]</p>
+          </article>
+
+          <article class="selo">
+            <div class="selo__art" aria-hidden="true">
+              <img src="assets/img/selo-gravata.png" alt="">
+            </div>
+            <h3>Dress Code</h3>
+            <p class="placeholder-text">[ Traje — ex.: esporte fino ]<br>[ Observações — tons, calçados, clima ]</p>
+          </article>
+
         </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTAGEM ============ -->
+    <section class="section contagem" id="contagem">
+      <div class="contagem__texture" aria-hidden="true"></div>
+      <div class="section__inner">
+        <p class="eyebrow eyebrow--light">A contagem começou</p>
+        <h2 class="contagem__title">Falta pouco para o nosso dia</h2>
+        <div class="contagem__grid" id="countdown">
+          <div class="contagem__cell"><span class="contagem__num" id="cdDias">—</span><span class="contagem__label">dias</span></div>
+          <div class="contagem__cell"><span class="contagem__num" id="cdHoras">—</span><span class="contagem__label">horas</span></div>
+          <div class="contagem__cell"><span class="contagem__num" id="cdMin">—</span><span class="contagem__label">minutos</span></div>
+        </div>
+        <p class="contagem__date">06 . 03 . 2027</p>
       </div>
     </section>
 
@@ -149,18 +147,20 @@
       </div>
     </section>
 
-    <!-- ============ CONTAGEM ============ -->
-    <section class="section contagem" id="contagem">
-      <div class="contagem__texture" aria-hidden="true"></div>
+    <!-- ============ GALERIA ============ -->
+    <section class="section galeria" id="galeria">
       <div class="section__inner">
-        <p class="eyebrow">A contagem começou</p>
-        <h2 class="contagem__title">Falta pouco para o nosso dia</h2>
-        <div class="contagem__grid" id="countdown">
-          <div class="contagem__cell"><span class="contagem__num" id="cdDias">—</span><span class="contagem__label">dias</span></div>
-          <div class="contagem__cell"><span class="contagem__num" id="cdHoras">—</span><span class="contagem__label">horas</span></div>
-          <div class="contagem__cell"><span class="contagem__num" id="cdMin">—</span><span class="contagem__label">minutos</span></div>
+        <p class="eyebrow">Galeria</p>
+        <h2>Alguns momentos nossos</h2>
+        <div class="galeria__grid">
+          <!-- SLOT-FOTO: galeria — 6 fotos do casal -->
+          <div class="photo-placeholder"><span>Foto 1 <em>[ substituir ]</em></span></div>
+          <div class="photo-placeholder"><span>Foto 2 <em>[ substituir ]</em></span></div>
+          <div class="photo-placeholder"><span>Foto 3 <em>[ substituir ]</em></span></div>
+          <div class="photo-placeholder"><span>Foto 4 <em>[ substituir ]</em></span></div>
+          <div class="photo-placeholder"><span>Foto 5 <em>[ substituir ]</em></span></div>
+          <div class="photo-placeholder"><span>Foto 6 <em>[ substituir ]</em></span></div>
         </div>
-        <p class="contagem__date">06 . 03 . 2027</p>
       </div>
     </section>
 
