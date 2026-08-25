@@ -64,8 +64,8 @@
         </div>
         <p class="eyebrow">Confirme sua presença</p>
         <h2 class="rsvp__title">Queremos você com a gente</h2>
-        <p class="rsvp__text">Em breve você poderá confirmar sua presença por aqui mesmo.</p>
-        <button class="rsvp__btn" disabled>Confirmação em breve</button>
+        <p class="rsvp__text">Nos ajude a organizar tudo — confirme sua presença por aqui.</p>
+        <button class="rsvp__btn" id="rsvpBtn">Confirmar presença</button>
       </div>
     </section>
 
@@ -76,13 +76,16 @@
         <h2>Onde, presentes &amp; como</h2>
         <div class="selos">
 
-          <article class="selo">
+          <!-- O href aponta pro mapa de propósito: sem JS o link ainda leva a algum
+               lugar útil em vez de virar um link morto. Com JS, abre o modal. -->
+          <a class="selo selo--onde" id="ondeCard" href="https://www.google.com/maps/search/?api=1&amp;query=Fazenda+Brisa+do+Mar%2C+Palho%C3%A7a+-+SC" target="_blank" rel="noopener">
             <div class="selo__art" aria-hidden="true">
               <img src="assets/img/selo-ninho.png" alt="">
             </div>
             <h3>Onde</h3>
-            <p class="placeholder-text">[ Nome do espaço ]<br>[ Endereço completo ]<br>[ Cidade — UF ]<br>[ horário da cerimônia ]<br>[ horário da recepção ]</p>
-          </article>
+            <p class="onde__nome">Fazenda Brisa do Mar</p>
+            <p class="onde__end">Estrada Geral do Maciambú<br>Palhoça — SC, 88130-000</p>
+          </a>
 
           <article class="selo">
             <div class="selo__art" aria-hidden="true">
@@ -172,6 +175,15 @@
     <p class="footer__names">Miriã <span class="amp">&amp;</span> Flávio</p>
     <p class="footer__date">06 . 03 . 2027</p>
   </footer>
+
+  <!-- ============ MODAL (serve o RSVP e o card Onde) ============ -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal__fundo" data-fechar></div>
+    <div class="modal__caixa" role="dialog" aria-modal="true" aria-labelledby="modalTitulo">
+      <button class="modal__x" id="modalX" data-fechar aria-label="Fechar">&times;</button>
+      <div id="modalCorpo"></div>
+    </div>
+  </div>
 
   <script src="js/main.js"></script>
 </body>
