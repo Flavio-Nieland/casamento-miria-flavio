@@ -428,9 +428,10 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
   border: 1px solid var(--indigo);
   background: transparent;
   color: var(--indigo);
-  cursor: not-allowed;
-  opacity: .85;
+  cursor: pointer;
+  transition: background .25s, color .25s;
 }
+.rsvp__btn:hover { background: var(--indigo); color: #fff; }
 
 /* ============ FOOTER ============ */
 .footer {
@@ -455,6 +456,165 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
   letter-spacing: .35em;
   color: var(--solitude);
 }
+
+/* ============ CARD "ONDE" ============ */
+.selo--onde { display: block; text-decoration: none; color: inherit; cursor: pointer; }
+.onde__nome {
+  font-family: var(--serif);
+  font-size: 1.12rem;
+  font-style: italic;
+  color: var(--indigo);
+  margin-bottom: .35rem;
+}
+.onde__end { font-size: .92rem; line-height: 1.6; }
+
+/* ============ MODAL ============ */
+.modal[hidden] { display: none; }
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.2rem;
+}
+
+.modal__fundo {
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--navy) 72%, transparent);
+  backdrop-filter: blur(4px);
+  animation: modalFundo .3s ease;
+}
+@keyframes modalFundo { from { opacity: 0; } }
+
+.modal__caixa {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  max-height: 92dvh;      /* dvh e nao vh: no Safari do iPhone a barra corta o vh */
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 6px;
+  text-align: center;
+  box-shadow: 0 30px 70px -30px black;
+  animation: modalSobe .32s cubic-bezier(.2, .8, .3, 1);
+}
+@keyframes modalSobe { from { opacity: 0; transform: translateY(16px) scale(.97); } }
+@media (prefers-reduced-motion: reduce) {
+  .modal__fundo, .modal__caixa { animation: none; }
+}
+
+.modal__pad { padding: 2.6rem 1.8rem 2.2rem; }
+
+.modal__x {
+  position: absolute;
+  top: .5rem; right: .7rem;
+  z-index: 3;
+  padding: .3rem .5rem;
+  font-size: 1.9rem;
+  line-height: 1;
+  color: var(--taupe);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.modal__x:hover { color: var(--indigo); }
+
+.modal__art { width: 92px; margin: 0 auto 1rem; }
+.modal__art img { width: 100%; height: auto; }
+
+.modal__titulo {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--indigo);
+  font-size: clamp(1.45rem, 5.5vw, 1.9rem);
+  line-height: 1.2;
+  margin-bottom: 1.4rem;
+}
+
+.modal__texto { color: var(--taupe); margin-top: .3rem; }
+
+/* ---- formulário do RSVP ---- */
+.modal__campo {
+  width: 100%;
+  font-family: var(--sans);
+  font-size: 1.05rem;   /* menos que 1rem faz o iOS dar zoom ao focar */
+  font-weight: 300;
+  color: var(--ink);
+  text-align: center;
+  background: var(--paper);
+  border: 1px solid color-mix(in srgb, var(--blue) 45%, transparent);
+  border-radius: 4px;
+  padding: .95rem 1rem;
+}
+.modal__campo:focus { outline: 2px solid var(--solitude); outline-offset: 2px; border-color: var(--blue); }
+.modal__campo::placeholder { color: color-mix(in srgb, var(--taupe) 70%, transparent); }
+
+.modal__erro {
+  display: block;
+  min-height: 1.25rem;
+  margin: .55rem 0 1rem;
+  font-size: .82rem;
+  color: #9C4A3C;
+}
+
+.modal__btn {
+  font-family: var(--sans);
+  font-size: .82rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  padding: .95rem 2.4rem;
+  border-radius: 999px;
+  border: 1px solid var(--indigo);
+  background: var(--indigo);
+  color: #fff;
+  cursor: pointer;
+  transition: opacity .2s;
+}
+.modal__btn:hover { opacity: .88; }
+.modal__btn[disabled] { opacity: .55; cursor: progress; }
+
+/* ---- as duas saídas do modal "Onde" ---- */
+.onde__sub { font-size: .88rem; color: var(--taupe); line-height: 1.55; margin: -.9rem 0 1.6rem; }
+
+.opcao {
+  display: block;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  background: #fff;
+  border: 1.5px dashed color-mix(in srgb, var(--blue) 55%, transparent);
+  border-radius: 4px;
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s;
+}
+.opcao + .opcao { margin-top: .9rem; }
+.opcao:hover {
+  transform: translateY(-3px);
+  border-color: var(--blue);
+  box-shadow: 0 14px 30px -20px color-mix(in srgb, var(--navy) 60%, transparent);
+}
+
+.opcao__capa { height: 96px; overflow: hidden; position: relative;
+  background: linear-gradient(160deg, var(--linen), var(--sage-lt)); }
+.opcao__capa img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 42%; display: block; }
+.opcao__capa svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+.opcao__pin { animation: pinPula 2.6s ease-in-out infinite; transform-origin: 50% 100%; }
+@keyframes pinPula { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+@media (prefers-reduced-motion: reduce) { .opcao__pin { animation: none; } }
+
+.opcao__corpo { padding: .95rem 1rem 1.05rem; }
+.opcao__nome {
+  font-family: var(--sans);
+  font-size: .78rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--indigo);
+}
+.opcao__desc { font-size: .84rem; color: var(--taupe); margin-top: .25rem; }
 
 /* ============ RESPONSIVO ============ */
 @media (max-width: 760px) {
