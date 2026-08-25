@@ -23,6 +23,9 @@
   --taupe:    #8C8578;
   --ink:      #333B49;
 
+  /* altura da onda que costura o hero com o RSVP */
+  --wave-h: clamp(40px, 7vw, 90px);
+
   --serif: "Cormorant Garamond", Georgia, serif;
   --sans:  "Jost", "Segoe UI", sans-serif;
 
@@ -34,7 +37,6 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-snap-type: y proximity; /* snap só perto do início e do Grande Dia */
 }
 
 body {
@@ -73,8 +75,6 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
   scroll-margin-top: 3.6rem; /* compensa a nav fixa */
 }
 
-/* snap apenas na transição Início -> RSVP */
-.rsvp { scroll-snap-align: start; }
 .section__inner { max-width: 1080px; margin: 0 auto; }
 
 /* ============ NAV ============ */
@@ -131,9 +131,7 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
 
 /* ============ HERO ============ */
 .hero {
-  --wave-h: clamp(40px, 7vw, 90px);
   position: relative;
-  scroll-snap-align: start;
   /* +altura da onda: no primeiro acesso o linho cobre a tela inteira e a onda só aparece no scroll */
   min-height: calc(100svh + var(--wave-h));
   display: flex;
@@ -212,21 +210,31 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
 }
 @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
 
-.wave-divider {
-  position: absolute;
-  bottom: -1px; left: 0; right: 0;
-  line-height: 0;
-  overflow: hidden;
-}
-.wave-divider svg {
-  width: 200%;
-  height: var(--wave-h);
-  display: block;
+/* A onda nao e mais um desenho no hero: e a borda superior do RSVP, recortada
+   por mascara. Assim o gradiente e a textura de passarinhos atravessam a onda
+   sem emenda, e acompanham sozinhos qualquer mudanca de cor da secao. */
+.rsvp {
+  --wave-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2880 90' preserveAspectRatio='none'%3E%3Cpath d='M0,48 C240,88 480,8 720,40 C960,72 1200,16 1440,48 C1680,88 1920,8 2160,40 C2400,72 2640,16 2880,48 L2880,90 L0,90 Z' fill='%23000'/%3E%3C/svg%3E");
+  margin-top: calc(var(--wave-h) * -1);
+  padding-top: calc(clamp(4rem, 9vw, 7.5rem) + var(--wave-h));
+  -webkit-mask-image: var(--wave-mask), linear-gradient(#000, #000);
+          mask-image: var(--wave-mask), linear-gradient(#000, #000);
+  -webkit-mask-size: 200% var(--wave-h), 100% calc(100% - var(--wave-h) + 1px);
+          mask-size: 200% var(--wave-h), 100% calc(100% - var(--wave-h) + 1px);
+  -webkit-mask-position: 0 0, 0 calc(var(--wave-h) - 1px);
+          mask-position: 0 0, 0 calc(var(--wave-h) - 1px);
+  -webkit-mask-repeat: repeat-x, no-repeat;
+          mask-repeat: repeat-x, no-repeat;
   animation: onda 18s linear infinite;
 }
-@keyframes onda { to { transform: translateX(-50%); } }
+@keyframes onda {
+  to {
+    -webkit-mask-position: -200% 0, 0 calc(var(--wave-h) - 1px);
+            mask-position: -200% 0, 0 calc(var(--wave-h) - 1px);
+  }
+}
 @media (prefers-reduced-motion: reduce) {
-  .wave-divider svg { animation: none; }
+  .rsvp { animation: none; }
 }
 
 /* ============ NOSSA HISTÓRIA ============ */
