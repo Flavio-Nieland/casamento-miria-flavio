@@ -47,6 +47,7 @@ const MAPS_URL    = 'https://www.google.com/maps/search/?api=1&query=Fazenda+Bri
 const GALERIA_URL = 'https://fazendabrisadomar.com.br/galeria/';
 
 const modal = document.getElementById('modal');
+const modalCaixa = modal.querySelector('.modal__caixa');
 const modalCorpo = document.getElementById('modalCorpo');
 let focoAnterior = null;
 let nomeGuardado = '';
@@ -81,6 +82,7 @@ function abrirModal(html) {
 
 function fecharModal() {
   modal.hidden = true;
+  modalCaixa.classList.remove('modal__caixa--dc');
   document.body.style.overflow = '';
   nomeGuardado = '';
   if (focoAnterior) focoAnterior.focus();
@@ -109,6 +111,18 @@ function abrirOnde() {
         </div>
       </a>
     </div>`);
+}
+
+// ---- modal do Dress Code ----
+// O conteúdo mora no <template id="dressCodeTpl"> do index.html, não aqui:
+// é o bloco que mais vai mudar, e lá ele fica em HTML legível.
+// A exclusividade dos três módulos vem do próprio <details name="dc">.
+function abrirDressCode() {
+  focoAnterior = document.activeElement;
+  modalCaixa.classList.add('modal__caixa--dc');
+  modalCorpo.replaceChildren(document.getElementById('dressCodeTpl').content.cloneNode(true));
+  modal.hidden = false;
+  document.body.style.overflow = 'hidden';
 }
 
 // ---- modal do RSVP ----
@@ -200,6 +214,8 @@ function escapa(s) {
 }
 
 document.getElementById('rsvpBtn').addEventListener('click', () => abrirRsvp(''));
+
+document.getElementById('dressCodeBtn').addEventListener('click', abrirDressCode);
 
 document.getElementById('ondeCard').addEventListener('click', (e) => {
   e.preventDefault();   // sem JS o href leva direto ao mapa; com JS, abre o modal

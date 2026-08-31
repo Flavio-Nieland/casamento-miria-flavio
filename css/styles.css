@@ -616,6 +616,110 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
 }
 .opcao__desc { font-size: .84rem; color: var(--taupe); margin-top: .25rem; }
 
+/* ============ DRESS CODE ============ */
+/* o card do dress code é um <button>, então precisa do reset */
+.selo--dc {
+  font: inherit;
+  color: inherit;
+  text-align: center;
+  width: 100%;
+  display: block;
+  cursor: pointer;
+  appearance: none;
+}
+.selo--dc:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+
+/* <span> é inline: sem isto o width de 108px do .selo__art é ignorado e o
+   passarinho estica até a largura do card */
+.selo--dc .selo__art { display: block; }
+
+/* <span> com cara de h3: heading não pode viver dentro de <button> */
+.selo--dc .selo__h3 {
+  display: block;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-style: italic;
+  font-size: 1.55rem;
+  line-height: 1.15;
+  color: var(--indigo);
+  margin-bottom: .6rem;
+}
+.dc__cta { font-size: .92rem; color: var(--taupe); }
+
+/* ---- modal do dress code ---- */
+.modal__caixa--dc { max-width: 520px; }
+.dc__pad { padding: 2.6rem 1.3rem 1.8rem; }
+.dc__titulo { margin-bottom: 1.8rem; }
+
+.dc details {
+  background: #fff;
+  border: 1.5px dashed color-mix(in srgb, var(--blue) 55%, transparent);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: border-color .25s;
+}
+.dc details + details { margin-top: 1rem; }
+.dc details[open] { border-color: var(--blue); }
+.dc summary { display: block; cursor: pointer; list-style: none; }
+.dc summary::-webkit-details-marker { display: none; }
+
+/* a capa é sempre a miniatura recortada — serve de cabeçalho aberto ou fechado */
+.dc__capa { position: relative; height: 120px; overflow: hidden; }
+.dc__capa img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .35s ease; }
+.dc summary:hover .dc__capa img { transform: scale(1.04); }
+.dc__capa::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right,
+    color-mix(in srgb, var(--navy) 96%, transparent) 0%,
+    color-mix(in srgb, var(--navy) 74%, transparent) 44%,
+    color-mix(in srgb, var(--navy) 22%, transparent) 100%);
+}
+.dc__capa-rot {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem 0 1.15rem;
+}
+.dc__capa-nome {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.45rem;
+  color: #fff;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, .45);
+}
+.dc__mais {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, .7);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 1.05rem;
+  line-height: 1;
+  transition: transform .25s ease, background .25s;
+}
+.dc details[open] .dc__mais { transform: rotate(45deg); background: rgba(255, 255, 255, .18); }
+@media (prefers-reduced-motion: reduce) {
+  .dc__capa img, .dc__mais { transition: none; }
+}
+
+.dc__corpo { padding: 1.3rem 1.2rem 1.5rem; text-align: center; }
+.dc__texto { font-size: .98rem; line-height: 1.65; color: var(--ink); margin-bottom: 1.1rem; }
+
+/* sem object-fit aqui de propósito: cortar foto de roupa esconde o que a
+   pessoa precisa ver. Cada foto entra inteira, limitada só na largura. */
+.dc__fig { margin: 0 auto; border-radius: 3px; overflow: hidden; background: var(--linen); }
+.dc__fig img { width: 100%; height: auto; display: block; }
+.dc__fig--vertical { max-width: 215px; }
+.dc__fig--grupo { max-width: 100%; }
+
 /* ============ RESPONSIVO ============ */
 @media (max-width: 760px) {
   .nav__toggle { display: block; }

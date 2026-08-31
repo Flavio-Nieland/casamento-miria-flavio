@@ -73,7 +73,7 @@
     <section class="section grande-dia" id="grande-dia">
       <div class="section__inner">
         <p class="eyebrow">O Grande Dia</p>
-        <h2>Onde, presentes &amp; como</h2>
+        <h2>Local, Presentes &amp; Vestimenta</h2>
         <div class="selos">
 
           <!-- O href aponta pro mapa de propósito: sem JS o link ainda leva a algum
@@ -95,13 +95,16 @@
             <p class="placeholder-text">[ lista de presentes ]<br>[ chave PIX ]</p>
           </article>
 
-          <article class="selo">
-            <div class="selo__art" aria-hidden="true">
+          <!-- botão, e não <article>: sem href natural pra onde cair, quem abre o
+               modal aqui é o próprio card. <button> já dá foco e teclado de graça.
+               O <h3> virou <span>: heading dentro de <button> é HTML inválido. -->
+          <button class="selo selo--dc" id="dressCodeBtn" type="button">
+            <span class="selo__art" aria-hidden="true">
               <img src="assets/img/selo-gravata.png" alt="">
-            </div>
-            <h3>Dress Code</h3>
-            <p class="placeholder-text">[ Traje — ex.: esporte fino ]<br>[ Observações — tons, calçados, clima ]</p>
-          </article>
+            </span>
+            <span class="selo__h3">Dress Code</span>
+            <span class="dc__cta">Toque para ver o traje</span>
+          </button>
 
         </div>
       </div>
@@ -176,7 +179,7 @@
     <p class="footer__date">06 . 03 . 2027</p>
   </footer>
 
-  <!-- ============ MODAL (serve o RSVP e o card Onde) ============ -->
+  <!-- ============ MODAL (serve o RSVP, o card Onde e o Dress Code) ============ -->
   <div class="modal" id="modal" hidden>
     <div class="modal__fundo" data-fechar></div>
     <div class="modal__caixa" role="dialog" aria-modal="true" aria-labelledby="modalTitulo">
@@ -184,6 +187,55 @@
       <div id="modalCorpo"></div>
     </div>
   </div>
+
+  <!-- ============ CONTEÚDO DO DRESS CODE ============
+       Fica aqui, e não numa string no main.js, porque é o conteúdo que mais
+       muda: trocar um texto ou uma foto é mexer só neste bloco.
+       <details name="dc"> abre um e fecha os outros sem uma linha de JS. -->
+  <template id="dressCodeTpl">
+    <div class="modal__pad dc__pad dc">
+      <h3 class="modal__titulo dc__titulo" id="modalTitulo">Dress Code</h3>
+
+      <details name="dc">
+        <summary>
+          <div class="dc__capa">
+            <img src="assets/img/dresscode/mini-convidados.jpg" alt="">
+            <div class="dc__capa-rot"><span class="dc__capa-nome">Convidados</span><span class="dc__mais" aria-hidden="true">+</span></div>
+          </div>
+        </summary>
+        <div class="dc__corpo">
+          <p class="dc__texto">Esporte fino, para ele e para elas.</p>
+          <figure class="dc__fig dc__fig--vertical"><img src="assets/img/dresscode/convidados.jpg" alt="Referência de esporte fino" loading="lazy"></figure>
+        </div>
+      </details>
+
+      <details name="dc">
+        <summary>
+          <div class="dc__capa">
+            <img src="assets/img/dresscode/mini-madrinhas.jpg" alt="">
+            <div class="dc__capa-rot"><span class="dc__capa-nome">Madrinhas</span><span class="dc__mais" aria-hidden="true">+</span></div>
+          </div>
+        </summary>
+        <div class="dc__corpo">
+          <p class="dc__texto">Rosa claro.</p>
+          <figure class="dc__fig dc__fig--grupo"><img src="assets/img/dresscode/madrinhas.jpg" alt="Referência de vestidos em rosa claro" loading="lazy"></figure>
+        </div>
+      </details>
+
+      <details name="dc">
+        <summary>
+          <div class="dc__capa">
+            <img src="assets/img/dresscode/mini-padrinhos.jpg" alt="">
+            <div class="dc__capa-rot"><span class="dc__capa-nome">Padrinhos</span><span class="dc__mais" aria-hidden="true">+</span></div>
+          </div>
+        </summary>
+        <div class="dc__corpo">
+          <p class="dc__texto">Terno preto e camisa branca.</p>
+          <figure class="dc__fig dc__fig--vertical"><img src="assets/img/dresscode/padrinhos.jpg" alt="Referência de terno preto com camisa branca" loading="lazy"></figure>
+        </div>
+      </details>
+    </div>
+  </template>
 
   <script src="js/main.js"></script>
 </body>
