@@ -83,6 +83,8 @@ function abrirModal(html) {
 function fecharModal() {
   modal.hidden = true;
   modalCaixa.classList.remove('modal__caixa--dc');
+  modalCaixa.classList.remove('modal__caixa--fotos');
+  rodarPalco();
   document.body.style.overflow = '';
   nomeGuardado = '';
   if (focoAnterior) focoAnterior.focus();
@@ -213,6 +215,89 @@ function escapa(s) {
   return String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 }
 
+// ===== Galeria: uma foto por vez, e o modal com todas =====
+const palco = document.getElementById('palcoBtn');
+const palcoSlides = [...palco.querySelectorAll('.palco__slide')];
+const palcoPontos = [...document.querySelectorAll('#palcoPontos .palco__ponto')];
+const FOTOS = palcoSlides.map((s) => s.querySelector('img'));
+const TROCA_MS = 5000;
+
+let fotoAtual = 0;
+let palcoTimer = null;
+
+// o fundo desfocado de cada slide é a própria foto — sai daqui pra não repetir a URL no HTML.
+// img.src (absoluta) e não getAttribute('src'): url() dentro do CSS resolve o caminho
+// relativo a partir da folha de estilo, e viraria /css/assets/...
+palcoSlides.forEach((s, i) => s.style.setProperty('--bg', `url("${FOTOS[i].src}")`));
+
+function mostrarFoto(i) {
+  fotoAtual = (i + FOTOS.length) % FOTOS.length;
+  const foto = FOTOS[fotoAtual];
+  // width/height do atributo, não naturalWidth: valem antes de a imagem baixar
+  palco.style.setProperty('--ar', `${foto.getAttribute('width')} / ${foto.getAttribute('height')}`);
+  palcoSlides.forEach((s, n) => s.classList.toggle('is-ativa', n === fotoAtual));
+  palcoPontos.forEach((p, n) => p.classList.toggle('is-ativo', n === fotoAtual));
+}
+
+function rodarPalco() {
+  clearInterval(palcoTimer);
+  palcoTimer = setInterval(() => mostrarFoto(fotoAtual + 1), TROCA_MS);
+}
+
+function pararPalco() { clearInterval(palcoTimer); }
+
+palcoPontos.forEach((p, n) => p.addEventListener('click', () => { mostrarFoto(n); rodarPalco(); }));
+
+// aba em segundo plano não precisa ficar trocando foto
+document.addEventListener('visibilitychange', () => (document.hidden ? pararPalco() : rodarPalco()));
+
+mostrarFoto(0);
+rodarPalco();
+
+// ---- modal das fotos: abre na foto que está no palco e leva às outras ----
+function abrirFotos(inicio) {
+  pararPalco();
+  fotoAtual = inicio;
+  modalCaixa.classList.add('modal__caixa--fotos');
+  abrirModal(`
+    <div class="fotos">
+      <h3 class="modal__titulo fotos__titulo" id="modalTitulo">Alguns momentos nossos</h3>
+      <div class="fotos__palco">
+        <button class="fotos__nav fotos__nav--ant" type="button" aria-label="Foto anterior">&lsaquo;</button>
+        <img class="fotos__img" id="fotoGrande" src="" alt="">
+        <button class="fotos__nav fotos__nav--prox" type="button" aria-label="Próxima foto">&rsaquo;</button>
+      </div>
+      <div class="fotos__minis" id="fotoMinis">
+        ${FOTOS.map((f, i) => `
+          <button class="fotos__mini" type="button" data-i="${i}" aria-label="Ver foto ${i + 1} de ${FOTOS.length}">
+            <img src="${f.getAttribute('src')}" alt="">
+          </button>`).join('')}
+      </div>
+    </div>`);
+
+  modalCorpo.querySelector('.fotos__nav--ant').addEventListener('click', () => trocarNoModal(fotoAtual - 1));
+  modalCorpo.querySelector('.fotos__nav--prox').addEventListener('click', () => trocarNoModal(fotoAtual + 1));
+  modalCorpo.querySelectorAll('.fotos__mini').forEach((b) => {
+    b.addEventListener('click', () => trocarNoModal(Number(b.dataset.i)));
+  });
+
+  trocarNoModal(inicio);
+}
+
+/** troca a foto do modal e, junto, a que fica no palco quando ele fechar */
+function trocarNoModal(i) {
+  fotoAtual = (i + FOTOS.length) % FOTOS.length;
+  const grande = document.getElementById('fotoGrande');
+  grande.src = FOTOS[fotoAtual].getAttribute('src');
+  grande.alt = FOTOS[fotoAtual].alt;
+  modalCorpo.querySelectorAll('.fotos__mini').forEach((b, n) => {
+    b.classList.toggle('is-ativa', n === fotoAtual);
+  });
+  mostrarFoto(fotoAtual);
+}
+
+palco.addEventListener('click', () => abrirFotos(fotoAtual));
+
 document.getElementById('rsvpBtn').addEventListener('click', () => abrirRsvp(''));
 
 document.getElementById('dressCodeBtn').addEventListener('click', abrirDressCode);
@@ -227,5 +312,9 @@ modal.addEventListener('click', (e) => {
 });
 
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && !modal.hidden) fecharModal();
+  if (modal.hidden) return;
+  if (e.key === 'Escape') fecharModal();
+  if (!document.getElementById('fotoGrande')) return;
+  if (e.key === 'ArrowLeft') trocarNoModal(fotoAtual - 1);
+  if (e.key === 'ArrowRight') trocarNoModal(fotoAtual + 1);
 });

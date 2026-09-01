@@ -151,11 +151,37 @@
       <div class="section__inner">
         <p class="eyebrow">Galeria</p>
         <h2>Alguns momentos nossos</h2>
-        <div class="galeria__grid">
-          <figure class="g-item g-item--wide g-item--formatura"><img src="assets/img/fotos/galeria-formatura.jpg" alt="Miriã e Flávio na formatura da UFSC" loading="lazy" decoding="async" width="1400" height="933"></figure>
-          <figure class="g-item g-item--tall g-item--aniversario"><img src="assets/img/fotos/galeria-aniversario.jpg" alt="Miriã e Flávio na festa de aniversário" loading="lazy" decoding="async" width="892" height="1280"></figure>
-          <figure class="g-item g-item--tall g-item--pedalinho"><img src="assets/img/fotos/galeria-pedalinho.jpg" alt="Miriã e Flávio no pedalinho" loading="lazy" decoding="async" width="960" height="1280"></figure>
-          <figure class="g-item g-item--wide g-item--beiramar"><img src="assets/img/fotos/galeria-beiramar.jpg" alt="Miriã e Flávio ao entardecer" loading="lazy" decoding="async" width="1280" height="960"></figure>
+        <!-- Uma foto por vez, trocando sozinha; o clique abre o modal com todas.
+             Sem JS fica a primeira foto parada, que já é o essencial. -->
+        <button class="palco" id="palcoBtn" type="button" aria-label="Ampliar as fotos">
+          <figure class="palco__slide is-ativa">
+            <img src="assets/img/fotos/galeria-formatura.jpg" alt="Miriã e Flávio na formatura da UFSC" width="1400" height="933"
+                 decoding="async">
+          </figure>
+          <figure class="palco__slide">
+            <img src="assets/img/fotos/galeria-aniversario.jpg" alt="Miriã e Flávio na festa de aniversário" width="892" height="1280"
+                 decoding="async" loading="lazy">
+          </figure>
+          <figure class="palco__slide">
+            <img src="assets/img/fotos/galeria-pedalinho.jpg" alt="Miriã e Flávio no pedalinho" width="960" height="1280"
+                 decoding="async" loading="lazy">
+          </figure>
+          <figure class="palco__slide">
+            <img src="assets/img/fotos/galeria-beiramar.jpg" alt="Miriã e Flávio ao entardecer" width="1280" height="960"
+                 decoding="async" loading="lazy">
+          </figure>
+          <span class="palco__lupa" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 3h6v6M9 21H3v-6M21 3l-7.5 7.5M3 21l7.5-7.5"/>
+            </svg>
+          </span>
+        </button>
+
+        <div class="palco__pontos" id="palcoPontos">
+          <button type="button" class="palco__ponto" aria-label="Ver foto 1 de 4"></button>
+          <button type="button" class="palco__ponto" aria-label="Ver foto 2 de 4"></button>
+          <button type="button" class="palco__ponto" aria-label="Ver foto 3 de 4"></button>
+          <button type="button" class="palco__ponto" aria-label="Ver foto 4 de 4"></button>
         </div>
       </div>
     </section>

@@ -281,23 +281,6 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
   object-position: 50% 22%; /* mantém os dois rostos e a mão com o anel no quadro */
 }
 
-.g-item {
-  margin: 0;
-  overflow: hidden;
-  border-radius: 4px;
-  background: var(--linen-2);
-}
-.g-item img { display: block; width: 100%; height: 100%; object-fit: cover; }
-
-/* mosaico em ziguezague: a horizontal ocupa duas colunas, a vertical dita a altura da linha */
-.g-item--wide { grid-column: span 2; }
-.g-item--tall { aspect-ratio: 4 / 5; }
-
-/* ponto de corte de cada foto, para ninguém ficar de fora do enquadramento */
-.g-item--formatura img   { object-position: 50% 50%; }
-.g-item--aniversario img { object-position: 50% 45%; }
-.g-item--pedalinho img   { object-position: 50% 40%; }
-.g-item--beiramar img    { object-position: 50% 32%; }
 
 /* ============ CONTAGEM ============ */
 .contagem {
@@ -390,10 +373,88 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
 .galeria { background: var(--linen); text-align: center; }
 .galeria h2 { margin-bottom: 2.6rem; }
 
-.galeria__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.1rem;
+/* Uma foto por vez. O palco toma a proporção da foto em cena — retrato e
+   paisagem aparecem grandes, sem corte — e o que sobra nas beiradas é a
+   própria foto ampliada e desfocada. */
+.palco {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  aspect-ratio: var(--ar, 3 / 2);
+  max-height: 78dvh;
+  transition: aspect-ratio .55s ease;
+  padding: 0;
+  overflow: hidden;
+  background: var(--linen-2);
+  border: 0;
+  border-radius: 4px;
+  cursor: zoom-in;
+}
+
+.palco__slide {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  transition: opacity .9s ease;
+}
+.palco__slide.is-ativa { opacity: 1; }
+
+/* --bg é a própria foto, posta pelo JS a partir do src; sem JS fica o fundo liso */
+.palco__slide::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--bg) center / cover no-repeat;
+  filter: blur(22px) brightness(.72) saturate(1.1);
+  transform: scale(1.15);
+}
+
+.palco__slide img {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.palco__lupa {
+  position: absolute;
+  right: .8rem;
+  bottom: .8rem;
+  z-index: 2;
+  display: flex;
+  padding: .55rem;
+  color: var(--indigo);
+  background: color-mix(in srgb, #fff 88%, transparent);
+  border-radius: 999px;
+  box-shadow: 0 4px 14px -6px black;
+  transition: background .2s ease;
+}
+.palco:hover .palco__lupa { background: #fff; }
+
+.palco__pontos {
+  display: flex;
+  justify-content: center;
+  gap: .5rem;
+  margin-top: 1.1rem;
+}
+.palco__ponto {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  background: color-mix(in srgb, var(--blue) 32%, transparent);
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background .25s ease, transform .25s ease;
+}
+.palco__ponto.is-ativo { background: var(--indigo); transform: scale(1.25); }
+
+@media (prefers-reduced-motion: reduce) {
+  .palco,
+  .palco__slide { transition: none; }
 }
 
 /* ============ RSVP ============ */
@@ -733,6 +794,71 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
 .dc__fig--vertical { max-width: 215px; }
 .dc__fig--grupo { max-width: 100%; }
 
+/* ============ MODAL DAS FOTOS ============ */
+/* depois do .modal__caixa de propósito: mesma especificidade, quem vem por
+   último vence — foi assim que a caixa larga passou a valer */
+.modal__caixa--fotos { max-width: 880px; background: var(--paper); }
+
+.fotos { padding: 2.4rem 1rem 1.4rem; }
+.fotos__titulo { margin-bottom: 1.1rem; }
+
+.fotos__palco {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40dvh;
+}
+.fotos__img {
+  max-width: 100%;
+  max-height: 64dvh;
+  border-radius: 3px;
+  box-shadow: 0 18px 40px -24px black;
+}
+
+.fotos__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  font-size: 1.7rem;
+  line-height: 1;
+  color: var(--indigo);
+  background: color-mix(in srgb, #fff 86%, transparent);
+  border: 0;
+  border-radius: 999px;
+  box-shadow: 0 4px 14px -6px black;
+  cursor: pointer;
+}
+.fotos__nav:hover { background: #fff; }
+.fotos__nav--ant { left: 0; }
+.fotos__nav--prox { right: 0; }
+
+.fotos__minis {
+  display: flex;
+  justify-content: center;
+  gap: .5rem;
+  margin-top: 1.1rem;
+}
+.fotos__mini {
+  width: 62px;
+  height: 62px;
+  padding: 0;
+  overflow: hidden;
+  background: none;
+  border: 0;
+  border-radius: 3px;
+  opacity: .5;
+  cursor: pointer;
+  transition: opacity .2s ease;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+.fotos__mini img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.fotos__mini.is-ativa { opacity: 1; outline-color: var(--indigo); }
+
 /* ============ RESPONSIVO ============ */
 @media (max-width: 760px) {
   .nav__toggle { display: block; }
@@ -755,8 +881,9 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
 
   .selos { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
 
-  .galeria__grid { grid-template-columns: repeat(2, 1fr); }
-  .g-item--wide { aspect-ratio: 3 / 2; }
+  .fotos { padding: 2.2rem .6rem 1.2rem; }
+  .fotos__nav { width: 34px; height: 34px; font-size: 1.4rem; }
+  .fotos__mini { width: 48px; height: 48px; }
 
   /* contador: 3 números em uma linha só */
   .contagem__grid { gap: clamp(1rem, 6vw, 2rem); flex-wrap: nowrap; }
