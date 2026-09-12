@@ -51,6 +51,7 @@ const modalCaixa = modal.querySelector('.modal__caixa');
 const modalCorpo = document.getElementById('modalCorpo');
 let focoAnterior = null;
 let nomeGuardado = '';
+let avisoTimer = null;
 
 const passarinhos = '<div class="modal__art" aria-hidden="true"><img src="assets/img/lovebirds-indigo.png" alt=""></div>';
 
@@ -82,8 +83,9 @@ function abrirModal(html) {
 
 function fecharModal() {
   modal.hidden = true;
-  modalCaixa.classList.remove('modal__caixa--dc');
-  modalCaixa.classList.remove('modal__caixa--fotos');
+  // reset seco, e não um remove() por modal: assim nenhuma largura vaza pro
+  // próximo que abrir, e um modal novo não precisa lembrar de se limpar aqui
+  modalCaixa.className = 'modal__caixa';
   rodarPalco();
   document.body.style.overflow = '';
   nomeGuardado = '';
@@ -125,6 +127,56 @@ function abrirDressCode() {
   modalCorpo.replaceChildren(document.getElementById('dressCodeTpl').content.cloneNode(true));
   modal.hidden = false;
   document.body.style.overflow = 'hidden';
+}
+
+// ---- modal dos presentes ----
+// Mesma ideia do dress code: o conteúdo vem do <template> do index.html.
+function abrirPresentes() {
+  focoAnterior = document.activeElement;
+  modalCaixa.classList.add('modal__caixa--pres');
+  modalCorpo.replaceChildren(document.getElementById('presentesTpl').content.cloneNode(true));
+  modal.hidden = false;
+  document.body.style.overflow = 'hidden';
+}
+
+/** copia a chave e avisa embaixo do retângulo; o aviso some sozinho em 2s */
+async function copiarChave(texto, botao) {
+  const aviso = botao.parentElement.querySelector('.pres__ok');
+  let copiou = false;
+
+  try {
+    // só existe em HTTPS (e em localhost); em http comum nem aparece
+    await navigator.clipboard.writeText(texto);
+    copiou = true;
+  } catch {
+    const campo = document.createElement('textarea');
+    campo.value = texto;
+    campo.style.position = 'fixed';
+    campo.style.opacity = '0';
+    document.body.appendChild(campo);
+    campo.select();
+    try { copiou = document.execCommand('copy'); } catch {}
+    campo.remove();
+  }
+
+  if (copiou) {
+    aviso.textContent = 'Copiado!';
+    botao.classList.add('copiou');
+  } else {
+    // último recurso: deixa a chave selecionada pra pessoa copiar na mão
+    const trecho = document.createRange();
+    trecho.selectNodeContents(botao.querySelector('.pres__chave-val'));
+    getSelection().removeAllRanges();
+    getSelection().addRange(trecho);
+    aviso.textContent = 'Selecione e copie';
+  }
+
+  aviso.classList.add('aparece');
+  clearTimeout(avisoTimer);
+  avisoTimer = setTimeout(() => {
+    aviso.classList.remove('aparece');
+    botao.classList.remove('copiou');
+  }, 2000);
 }
 
 // ---- modal do RSVP ----
@@ -301,6 +353,14 @@ palco.addEventListener('click', () => abrirFotos(fotoAtual));
 document.getElementById('rsvpBtn').addEventListener('click', () => abrirRsvp(''));
 
 document.getElementById('dressCodeBtn').addEventListener('click', abrirDressCode);
+
+document.getElementById('presentesBtn').addEventListener('click', abrirPresentes);
+
+// o bloco inteiro da chave é o botão, então o clique no ícone também copia
+modalCorpo.addEventListener('click', (e) => {
+  const botao = e.target.closest('[data-copiar]');
+  if (botao) copiarChave(botao.dataset.copiar, botao);
+});
 
 document.getElementById('ondeCard').addEventListener('click', (e) => {
   e.preventDefault();   // sem JS o href leva direto ao mapa; com JS, abre o modal
