@@ -19,6 +19,9 @@
   --sage-lt:  #C2C9B4;  /* Hazel Gaze */
   --sage:     #87947A;  /* Privilege Green */
 
+  /* verde só do aviso de "copiado" */
+  --oliva:    #6E8B4B;
+
   /* neutros de apoio */
   --taupe:    #8C8578;
   --ink:      #333B49;
@@ -793,6 +796,187 @@ h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1.2rem; }
 .dc__fig img { width: 100%; height: auto; display: block; }
 .dc__fig--vertical { max-width: 215px; }
 .dc__fig--grupo { max-width: 100%; }
+
+/* ============ PRESENTES ============ */
+/* o card é um <button>, então precisa do mesmo reset do dress code */
+.selo--pres {
+  font: inherit;
+  color: inherit;
+  text-align: center;
+  width: 100%;
+  display: block;
+  cursor: pointer;
+  appearance: none;
+}
+.selo--pres:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+
+/* <span> é inline: sem isto o width de 108px do .selo__art é ignorado e o
+   presente estica até a largura do card */
+.selo--pres .selo__art { display: block; }
+
+/* <span> com cara de h3: heading não pode viver dentro de <button> */
+.selo--pres .selo__h3 {
+  display: block;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-style: italic;
+  font-size: 1.55rem;
+  line-height: 1.15;
+  color: var(--indigo);
+  margin-bottom: .6rem;
+}
+.pres__cta { font-size: .92rem; color: var(--taupe); }
+
+/* ---- modal dos presentes ---- */
+.modal__caixa--pres { max-width: 480px; }
+.pres { padding: 2.6rem 1.4rem 1.9rem; }
+.pres__intro { font-size: .95rem; line-height: 1.7; color: var(--ink); margin: -.6rem 0 1.8rem; }
+
+.pres details {
+  background: #fff;
+  border: 1.5px solid color-mix(in srgb, var(--navy) 30%, transparent);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: border-color .25s;
+}
+.pres details + details { margin-top: .9rem; }
+.pres details[open] { border-color: var(--navy); }
+.pres summary { display: block; cursor: pointer; list-style: none; }
+.pres summary::-webkit-details-marker { display: none; }
+.pres summary:focus-visible { outline: 2px solid var(--blue); outline-offset: -4px; }
+
+/* a barra é navy cheia: em cima do branco do modal o rótulo sumia */
+.pres__barra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .8rem;
+  padding: 1rem 1.1rem;
+  font-family: var(--sans);
+  font-size: .82rem;
+  font-weight: 500;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--navy);
+  transition: background .22s;
+}
+.pres summary:hover .pres__barra { background: var(--indigo); }
+
+/* o + é desenhado, não é glifo: a caixa do caractere reserva a descida embaixo
+   e o sinal fica sempre acima do centro da bolinha, por mais que se centralize.
+   Como são duas barras posicionadas por geometria, o giro de 45° fecha um × certo. */
+.pres__mais {
+  position: relative;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(255, 255, 255, .16);
+  transition: transform .3s;
+}
+.pres__mais::before, .pres__mais::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  background: currentColor;
+  border-radius: 1px;
+  transform: translate(-50%, -50%);
+}
+.pres__mais::before { width: 12px; height: 1.7px; }
+.pres__mais::after  { width: 1.7px; height: 12px; }
+.pres details[open] .pres__mais { transform: rotate(45deg); }
+@media (prefers-reduced-motion: reduce) {
+  .pres__mais, .pres__barra, .pres details { transition: none; }
+}
+
+.pres__corpo { padding: 1.3rem 1.1rem; }
+
+/* ---- QR do Pix ---- */
+/* preto e com folga branca em volta: a zona de silêncio faz parte do padrão,
+   é por ela que o leitor acha o código */
+.pres__qr {
+  display: inline-block;
+  line-height: 0;
+  color: #000;
+  background: #fff;
+  padding: 10px;
+  border-radius: 8px;
+}
+.pres__qr svg { width: 100%; max-width: 210px; height: auto; }
+
+/* ---- chave copiável ---- */
+.pres__chave {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 1.2rem 0 0;
+  padding: .85rem 3rem;
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
+  background: #fff;
+  border: 1.5px solid color-mix(in srgb, var(--blue) 45%, transparent);
+  border-radius: 4px;
+  transition: border-color .2s, background .2s;
+}
+.pres__chave:hover { border-color: var(--navy); background: color-mix(in srgb, var(--linen) 45%, transparent); }
+.pres__chave:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.pres__chave-rot {
+  display: block;
+  font-family: var(--sans);
+  font-size: .66rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--taupe);
+  margin-bottom: .3rem;
+}
+/* peso 600 do Jost: o <link> do index precisa pedir esse peso, senão o
+   navegador falsifica o negrito e o e-mail borra */
+.pres__chave-val {
+  display: block;
+  font-family: var(--sans);
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--navy);
+  word-break: break-all;
+}
+.pres__copiar {
+  position: absolute;
+  top: 50%; right: .9rem;
+  width: 20px; height: 20px;
+  transform: translateY(-50%);
+  color: var(--blue);
+  transition: color .2s;
+}
+.pres__chave:hover .pres__copiar { color: var(--navy); }
+
+/* a altura fica reservada mesmo com o aviso invisível: sem isso o modal pula
+   22px toda vez que a mensagem some */
+.pres__ok {
+  min-height: 1.35rem;
+  margin-top: .5rem;
+  font-family: var(--sans);
+  font-size: .84rem;
+  font-weight: 500;
+  letter-spacing: .04em;
+  color: var(--oliva);
+  opacity: 0;
+  transition: opacity .18s;
+}
+.pres__ok.aparece { opacity: 1; }
+.pres__chave.copiou { border-color: var(--oliva); }
+.pres__chave.copiou .pres__copiar { color: var(--oliva); }
+
+/* ---- listas ---- */
+.opcao--texto .opcao__corpo { padding: 1.15rem 1rem; text-align: center; }
+.opcao--texto .opcao__nome {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+}
 
 /* ============ MODAL DAS FOTOS ============ */
 /* depois do .modal__caixa de propósito: mesma especificidade, quem vem por
