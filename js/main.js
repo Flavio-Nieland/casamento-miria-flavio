@@ -50,7 +50,6 @@ const modal = document.getElementById('modal');
 const modalCaixa = modal.querySelector('.modal__caixa');
 const modalCorpo = document.getElementById('modalCorpo');
 let focoAnterior = null;
-let nomeGuardado = '';
 let avisoTimer = null;
 
 const passarinhos = '<div class="modal__art" aria-hidden="true"><img src="assets/img/lovebirds-indigo.png" alt=""></div>';
@@ -88,7 +87,7 @@ function fecharModal() {
   modalCaixa.className = 'modal__caixa';
   rodarPalco();
   document.body.style.overflow = '';
-  nomeGuardado = '';
+  selecionados = [];
   if (focoAnterior) focoAnterior.focus();
 }
 
@@ -180,57 +179,191 @@ async function copiarChave(texto, botao) {
 }
 
 // ---- modal do RSVP ----
-function abrirRsvp(erro) {
+// A lista de convidados vem do Apps Script (GET) na primeira abertura e fica em
+// memória. A pessoa busca o nome, ele vira um chip; pode adicionar quantos quiser.
+// Só nomes da lista são aceitos — quem não acha o seu é orientado a falar com os noivos.
+let convidados = null;   // [{ nome, fazenda, chave, rotulo }]
+let selecionados = [];   // chips do modal aberto
+let sugestoes = [];      // resultado da última busca
+let sugestaoAtiva = -1;  // índice marcado pelo teclado
+
+async function carregarConvidados() {
+  if (convidados) return convidados;
+  const resposta = await fetch(RSVP_URL);
+  const dados = await resposta.json();
+  if (!dados.ok || !Array.isArray(dados.convidados)) throw new Error('lista');
+  convidados = dados.convidados.map((c) => ({
+    nome: c.nome,
+    fazenda: !!c.fazenda,
+    chave: normaliza(c.nome),
+    rotulo: maiusculas(c.nome),
+  }));
+  return convidados;
+}
+
+/** troca só o miolo do modal já aberto, sem mexer no foco guardado */
+function trocarModal(html) { modalCorpo.innerHTML = html; }
+
+async function abrirRsvp() {
+  selecionados = [];
   abrirModal(`
     <div class="modal__pad">
       ${passarinhos}
-      <h3 class="modal__titulo" id="modalTitulo">Digite seu nome completo</h3>
+      <h3 class="modal__titulo" id="modalTitulo">Quem vai?</h3>
+      <p class="modal__texto">Carregando a lista de convidados…</p>
+    </div>`);
+
+  try {
+    await carregarConvidados();
+  } catch (e) {
+    if (modal.hidden) return;
+    trocarModal(`
+      <div class="modal__pad">
+        ${passarinhos}
+        <h3 class="modal__titulo" id="modalTitulo">Quem vai?</h3>
+        <p class="modal__texto">Não consegui carregar a lista agora.</p>
+        <span class="modal__erro"></span>
+        <button class="modal__btn" id="rsvpTentar" type="button">Tentar de novo</button>
+      </div>`);
+    document.getElementById('rsvpTentar').addEventListener('click', abrirRsvp);
+    return;
+  }
+
+  if (modal.hidden) return;   // fechou enquanto carregava
+  montarRsvp();
+}
+
+function montarRsvp() {
+  trocarModal(`
+    <div class="modal__pad">
+      ${passarinhos}
+      <h3 class="modal__titulo" id="modalTitulo">Quem vai?</h3>
+      <p class="modal__texto rsvp-m__dica">Busque seu nome na lista e adicione quem mais vai com você.</p>
       <form id="rsvpForm" novalidate>
-        <input class="modal__campo" id="rsvpNome" type="text" autocomplete="name"
-               maxlength="80" placeholder="Nome e sobrenome" value="${escapa(nomeGuardado)}">
+        <div class="chips" id="rsvpChips"></div>
+        <div class="busca">
+          <input class="modal__campo" id="rsvpBusca" type="text" autocomplete="off" maxlength="80"
+                 placeholder="Digite seu nome" role="combobox" aria-autocomplete="list"
+                 aria-expanded="false" aria-controls="rsvpSugestoes">
+          <ul class="busca__lista" id="rsvpSugestoes" role="listbox" hidden></ul>
+        </div>
         <!-- campo isca: fica fora da tela, humano não preenche, robô de spam sim -->
         <input id="rsvpIsca" name="sobrenome_confirmacao" tabindex="-1" autocomplete="off"
                aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0">
-        <span class="modal__erro" id="rsvpErro">${erro || ''}</span>
-        <button class="modal__btn" id="rsvpEnviar" type="submit">${erro ? 'Tentar de novo' : 'Confirmar'}</button>
+        <span class="modal__erro" id="rsvpErro"></span>
+        <button class="modal__btn" id="rsvpEnviar" type="submit" disabled>Confirmar</button>
       </form>
     </div>`);
 
+  const campo = document.getElementById('rsvpBusca');
+  const lista = document.getElementById('rsvpSugestoes');
+
+  campo.addEventListener('input', () => { document.getElementById('rsvpErro').textContent = ''; buscar(campo.value); });
+  campo.addEventListener('focus', () => buscar(campo.value));
+  campo.addEventListener('blur', () => setTimeout(fecharSugestoes, 120));
+  campo.addEventListener('keydown', (e) => {
+    if (lista.hidden) return;
+    if (e.key === 'ArrowDown') { e.preventDefault(); marcarSugestao(sugestaoAtiva + 1); }
+    if (e.key === 'ArrowUp')   { e.preventDefault(); marcarSugestao(sugestaoAtiva - 1); }
+    if (e.key === 'Enter' && sugestoes.length) { e.preventDefault(); escolher(sugestoes[Math.max(sugestaoAtiva, 0)]); }
+  });
+  // pointerdown e não click: o click vem depois do blur, e o blur já teria fechado a lista
+  lista.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    const item = e.target.closest('[data-i]');
+    if (item) escolher(sugestoes[Number(item.dataset.i)]);
+  });
+  document.getElementById('rsvpChips').addEventListener('click', (e) => {
+    const x = e.target.closest('[data-tirar]');
+    if (x) tirar(Number(x.dataset.tirar));
+  });
   document.getElementById('rsvpForm').addEventListener('submit', enviarRsvp);
-  const campo = document.getElementById('rsvpNome');
-  campo.addEventListener('input', () => { document.getElementById('rsvpErro').textContent = ''; });
   setTimeout(() => campo.focus(), 60);
 }
 
-function agradecer(nome) {
-  abrirModal(`
+function buscar(texto) {
+  const lista = document.getElementById('rsvpSugestoes');
+  const campo = document.getElementById('rsvpBusca');
+  const q = normaliza(texto);
+  if (q.length < 2) { fecharSugestoes(); return; }
+
+  // casa no começo de qualquer palavra do nome ("ped" acha "João Pedro", "joao p" também)
+  const re = new RegExp('(^| )' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  sugestoes = convidados
+    .filter((c) => !selecionados.includes(c) && re.test(c.chave))
+    .slice(0, 8);
+  sugestaoAtiva = -1;
+
+  lista.innerHTML = sugestoes.length
+    ? sugestoes.map((c, i) => `<li class="busca__item" role="option" data-i="${i}">${escapa(c.rotulo)}</li>`).join('')
+    : `<li class="busca__vazio">Não encontramos esse nome na lista.<br>Fale com os noivos para confirmar.</li>`;
+  lista.hidden = false;
+  campo.setAttribute('aria-expanded', 'true');
+}
+
+function fecharSugestoes() {
+  const lista = document.getElementById('rsvpSugestoes');
+  const campo = document.getElementById('rsvpBusca');
+  if (!lista) return;
+  lista.hidden = true;
+  campo.setAttribute('aria-expanded', 'false');
+  sugestoes = [];
+  sugestaoAtiva = -1;
+}
+
+function marcarSugestao(i) {
+  if (!sugestoes.length) return;
+  sugestaoAtiva = (i + sugestoes.length) % sugestoes.length;
+  document.querySelectorAll('#rsvpSugestoes .busca__item').forEach((el, n) => {
+    el.classList.toggle('is-ativo', n === sugestaoAtiva);
+  });
+}
+
+function escolher(convidado) {
+  if (!convidado || selecionados.includes(convidado)) return;
+  selecionados.push(convidado);
+  const campo = document.getElementById('rsvpBusca');
+  campo.value = '';
+  campo.placeholder = 'Adicionar outra pessoa';
+  fecharSugestoes();
+  desenharChips();
+  campo.focus();
+}
+
+function tirar(i) {
+  selecionados.splice(i, 1);
+  desenharChips();
+  if (!selecionados.length) document.getElementById('rsvpBusca').placeholder = 'Digite seu nome';
+}
+
+function desenharChips() {
+  document.getElementById('rsvpChips').innerHTML = selecionados.map((c, i) => `
+    <span class="chip">${escapa(c.rotulo)}
+      <button class="chip__x" type="button" data-tirar="${i}" aria-label="Remover ${escapa(c.rotulo)}">&times;</button>
+    </span>`).join('');
+  document.getElementById('rsvpEnviar').disabled = !selecionados.length;
+}
+
+function agradecer(nomes) {
+  const lista = nomes.length > 1
+    ? nomes.slice(0, -1).join(', ') + ' e ' + nomes[nomes.length - 1]
+    : nomes[0];
+  trocarModal(`
     <div class="modal__pad">
       ${passarinhos}
-      <h3 class="modal__titulo" id="modalTitulo">Obrigado, ${escapa(nome)}!</h3>
+      <h3 class="modal__titulo" id="modalTitulo">Obrigado, ${escapa(lista)}!</h3>
       <p class="modal__texto">Seu interesse foi registrado.<br>Em breve entraremos em contato.</p>
     </div>`);
 }
 
 async function enviarRsvp(ev) {
   ev.preventDefault();
+  if (!selecionados.length) return;
 
-  const campo = document.getElementById('rsvpNome');
   const erro = document.getElementById('rsvpErro');
   const botao = document.getElementById('rsvpEnviar');
+  const campo = document.getElementById('rsvpBusca');
   const isca = document.getElementById('rsvpIsca').value;
-
-  nomeGuardado = campo.value.trim().replace(/\s+/g, ' ');
-
-  if (!nomeGuardado) {
-    erro.textContent = 'Digite seu nome para confirmar.';
-    campo.focus();
-    return;
-  }
-  if (nomeGuardado.split(' ').length < 2) {
-    erro.textContent = 'Digite seu nome e sobrenome.';
-    campo.focus();
-    return;
-  }
 
   botao.disabled = true;
   botao.textContent = 'Confirmando…';
@@ -243,16 +376,29 @@ async function enviarRsvp(ev) {
     const resposta = await fetch(RSVP_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ chave: RSVP_CHAVE, nome: nomeGuardado, isca: isca }),
+      body: JSON.stringify({ chave: RSVP_CHAVE, nomes: selecionados.map((c) => c.nome), isca: isca }),
     });
     const dados = await resposta.json();
     if (!dados.ok) throw new Error(dados.erro || 'falhou');
 
-    agradecer(maiusculas(nomeGuardado));
-    nomeGuardado = '';
+    // todo mundo da seleção fica na fazenda: a página de hospedagem assume daqui
+    if (dados.fazenda) { window.location.href = 'fazenda.html'; return; }
+
+    agradecer(selecionados.map((c) => c.rotulo));
+    selecionados = [];
   } catch (e) {
-    abrirRsvp('Não consegui registrar agora. Toque em tentar de novo.');
+    erro.textContent = 'Não consegui registrar agora. Toque em confirmar de novo.';
+    botao.disabled = false;
+    botao.textContent = 'Confirmar';
+    campo.disabled = false;
   }
+}
+
+/** "  Flávio  NIELAND da Silva " -> "flavio nieland da silva" (mesma regra do Apps Script) */
+function normaliza(s) {
+  return String(s).replace(/\s+/g, ' ').trim()
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .toLowerCase();
 }
 
 /** "flavio nieland da silva" -> "Flavio Nieland da Silva" */
@@ -350,7 +496,7 @@ function trocarNoModal(i) {
 
 palco.addEventListener('click', () => abrirFotos(fotoAtual));
 
-document.getElementById('rsvpBtn').addEventListener('click', () => abrirRsvp(''));
+document.getElementById('rsvpBtn').addEventListener('click', abrirRsvp);
 
 document.getElementById('dressCodeBtn').addEventListener('click', abrirDressCode);
 
